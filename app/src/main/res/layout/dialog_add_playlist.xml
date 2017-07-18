@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSearch"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:weightSum="1">
+
+    <EditText
+        android:id="@+id/edit_playlist_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="New Playlist"
+        android:textColor="@color/colorLight1" />
+
+    <EditText
+        android:id="@+id/edit_playlist_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_weight="0.36"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Playlist Description"
+        android:textColor="@color/colorLight1" />
+
+    <CheckBox
+        android:id="@+id/check_public"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:checked="true"
+        android:text="Public "
+        android:textColor="@color/colorLight1" />
+
+    <CheckBox
+        android:id="@+id/check_multi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="Multi Playlist"
+        android:textColor="@color/colorLight1" />
+
+    <Button
+        android:id="@+id/button_add_playlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@color/colorBackground"
+        android:text="Create"
+        android:textColor="@color/colorLight1" />
+
+</LinearLayout>
