@@ -19,11 +19,19 @@ public interface SpotifyAuthService {
     @FormUrlEncoded
     @POST("/api/token")
     void requestAccessTokens(@Field("grant_type") String grantType , @Field("code") String code ,@Field("redirect_uri") String redirect, Callback<AccessTokenInfo> callback);
-    //void requestAccessTokens(@Body Map<String, Object> body, Callback<String> callback);
+
 
     @FormUrlEncoded
     @POST("/api/token")
     void refreshAccessToken(@Field("grant_type") String grantType , @Field("refresh_token") String code , Callback<AccessTokenInfo> callback);
+
+    @FormUrlEncoded
+    @POST("/api/token")
+    AccessTokenInfo refreshAccessToken(@Field("grant_type") String grantType , @Field("refresh_token") String code );
+
+    @FormUrlEncoded
+    @POST("/api/token")
+    AccessTokenInfo requestAccessTokens(@Field("grant_type") String grantType , @Field("code") String code ,@Field("redirect_uri") String redirect);
 
 
 }

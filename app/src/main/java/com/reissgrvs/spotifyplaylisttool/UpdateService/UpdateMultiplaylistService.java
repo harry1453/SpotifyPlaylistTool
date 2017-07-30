@@ -1,19 +1,12 @@
 package com.reissgrvs.spotifyplaylisttool.UpdateService;
 
-import android.app.job.JobParameters;
-import android.app.job.JobService;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.AccessTokenInfo;
-import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.SpotifyAPIManager;
+import com.reissgrvs.spotifyplaylisttool.MultiplaylistList.MultiplaylistUpdater;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore;
-
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Reiss on 18/07/2017.
@@ -26,27 +19,27 @@ public class UpdateMultiplaylistService extends com.firebase.jobdispatcher.JobSe
     @Override
     public boolean onStartJob(final com.firebase.jobdispatcher.JobParameters jobParameters) {
 
-        mBackgroundTask = new AsyncTask() {
 
+        mBackgroundTask = new AsyncTask() {
             @Override
             protected Object doInBackground(Object[] params) {
-                Context context = UpdateMultiplaylistService.this;
-                //TODO: Do tasks
-
-                //Refresh Auth Token
-                //Once refreshed update every multiplaylist
-
-                return null;
+                Log.d("UpdateTesting", "doInBackground");
+                //TODO: Update all multiplaylists
+                final Context context = UpdateMultiplaylistService.this;
+                TokenStore.refreshAuthToken(context);
+                MultiplaylistUpdater.updateAllMultiplaylists(context);
+                return true;
             }
 
             @Override
             protected void onPostExecute(Object o) {
-
+                Log.d("UpdateTesting", "onPostExecute for background task");
                 jobFinished(jobParameters, false);
             }
         };
 
         mBackgroundTask.execute();
+
         return true;
     }
 

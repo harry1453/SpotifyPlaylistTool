@@ -45,7 +45,7 @@
                 android:value=".Activities.MainActivity" />
         </activity>
         <activity android:name=".Activities.PlaylistSearchActivity"></activity>
-        <service
+        <!--<service
             android:name=".UpdateService.UpdateMultiplaylistService"
             android:exported="false">
             <intent-filter>
@@ -53,7 +53,7 @@
             </intent-filter>
         </service>
 
-
+-->
 
     </application>
 

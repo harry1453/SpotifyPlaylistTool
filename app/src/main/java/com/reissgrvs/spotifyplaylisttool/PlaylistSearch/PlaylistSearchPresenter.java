@@ -69,7 +69,7 @@ public class PlaylistSearchPresenter implements PlaylistSearch.ActionListener {
             mCurrentQuery = searchQuery;
             mView.reset();
             List<PlaylistSimple> queriedUserPlaylists = new ArrayList<>();
-            //TODO: Add a search for current users playlists and add to View
+
             for (PlaylistSimple playlist : mUserPlaylists)
             {
                 if (playlist.name.toLowerCase().contains(mCurrentQuery.toLowerCase())){

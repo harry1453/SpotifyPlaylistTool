@@ -2,6 +2,7 @@ package com.reissgrvs.spotifyplaylisttool.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
@@ -15,15 +16,18 @@ import android.view.View;
 
 
 import com.reissgrvs.spotifyplaylisttool.Dialogs.PlaylistAddDialog;
+import com.reissgrvs.spotifyplaylisttool.MultiplaylistList.MultiplaylistUpdater;
 import com.reissgrvs.spotifyplaylisttool.R;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore;
 import com.reissgrvs.spotifyplaylisttool.PlaylistList.PlaylistPresenter;
 import com.reissgrvs.spotifyplaylisttool.PlaylistList.PlaylistResultsAdapter;
+import com.reissgrvs.spotifyplaylisttool.UpdateService.UpdateMultiplaylistService;
 import com.reissgrvs.spotifyplaylisttool.Util.MultiPlaylistStore;
 import com.reissgrvs.spotifyplaylisttool.Util.ResultListScrollListener;
 import com.reissgrvs.spotifyplaylisttool.PlaylistList.UserPlaylist;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
 
@@ -61,6 +65,31 @@ public class MainActivity extends AppCompatActivity implements UserPlaylist.View
         getSupportActionBar().setElevation(24);
         String token = TokenStore.getAuthToken(this);
 
+  /*      AsyncTask mBackgroundTask = new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] params) {
+                Log.d("UpdateTesting", "doInBackground");
+                //TODO: Update all multiplaylists
+                TokenStore.refreshAuthToken(getBaseContext());
+                android.os.Debug.waitForDebugger();
+                MultiplaylistUpdater.updateAllMultiplaylists(getBaseContext());
+                return true;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                Log.d("UpdateTesting", "onPostExecute for foreground task");
+            }
+        };
+
+        try {
+            mBackgroundTask.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+*/
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_add_playlist);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

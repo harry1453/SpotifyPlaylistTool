@@ -66,8 +66,10 @@ public class PlaylistPager {
                 List<PlaylistSimple> userItems = new ArrayList<>();
                 //TODO: Maybe save these to file or something so that can be accessed in playlist search
 
-                MyPlaylistsStore.myPlaylists = items;
+                if(!items.isEmpty()) {
 
+                    MyPlaylistsStore.myPlaylists.addAll(items);
+                }
                 String userID = TokenStore.getUserId(mContext);
                 for (PlaylistSimple item : items){
                     if (item.owner.id.equals(userID) || item.collaborative){

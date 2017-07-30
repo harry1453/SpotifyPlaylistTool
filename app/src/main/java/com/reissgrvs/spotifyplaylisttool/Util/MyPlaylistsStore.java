@@ -1,5 +1,6 @@
 package com.reissgrvs.spotifyplaylisttool.Util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
@@ -10,7 +11,7 @@ import kaaes.spotify.webapi.android.models.PlaylistSimple;
 
 public class MyPlaylistsStore {
     //TODO: Fucking get rid of this you moron
-    static public  List<PlaylistSimple> myPlaylists;
+    static public  List<PlaylistSimple> myPlaylists = new ArrayList<>();
 }
 
 

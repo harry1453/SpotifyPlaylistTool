@@ -36,6 +36,10 @@ public class MultiPlaylistStore {
 
     }
 
+    static public HashMap<String, ArrayList<String>> getMultiplaylistStore(){
+        return multiplaylistStore;
+    }
+
     static public void saveMultiPlaylistFile(Context mContext){
         try {
             FileOutputStream fos = mContext.openFileOutput( FILENAME , Context.MODE_PRIVATE);

@@ -27,13 +27,11 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UpdateUtils.scheduleMultiplaylistUpdate(this);
 
-        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("webapi.credentials", Context.MODE_PRIVATE);
-        Log.d("UPDATE SERVICE COUNT", Integer.toString(sharedPref.getInt("UPDATE_SERVICE_COUNT", 0)));
+        //UpdateUtils.scheduleMultiplaylistUpdate(this);
 
-        TokenStore.mStart = true;
         String refreshToken = TokenStore.getRefreshToken(this);
+        Log.d("WTF", "token: " + refreshToken);
         if (refreshToken == null) {
             setContentView(R.layout.activity_login);
         } else {
@@ -62,8 +60,11 @@ public class LoginActivity extends Activity {
                 // Response was successful and contains auth token
                 case CODE:
                     logMessage("Got code: " + response.getCode());
-                    //TODO: Get auth and refresh tokens
+
                     TokenStore.fetchAuthRefreshTokens(this, response.getCode());
+                    TokenStore.fetchUserId(this);
+                    Intent mainActivity = MainActivity.createIntent(this);
+                    startActivity(mainActivity);
                     break;
 
                 // Auth flow returned an error

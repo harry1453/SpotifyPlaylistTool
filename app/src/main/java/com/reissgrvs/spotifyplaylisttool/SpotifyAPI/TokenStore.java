@@ -3,11 +3,13 @@ package com.reissgrvs.spotifyplaylisttool.SpotifyAPI;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.reissgrvs.spotifyplaylisttool.Activities.MainActivity;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import kaaes.spotify.webapi.android.SpotifyCallback;
@@ -47,73 +49,82 @@ public class TokenStore
 
         SpotifyAPIManager.setToken(accessTokenInfo.access_token);
 
-        fetchUserId(context);
-
     }
 
-    public static void fetchAuthRefreshTokens(final Context appContext, String code){
+    public static void fetchAuthRefreshTokens(final Context appContext,final String code){
 
-        SpotifyAPIManager.getAuthService().requestAccessTokens("authorization_code", code, "testschema://callback", new Callback<AccessTokenInfo>() {
+
+        AsyncTask fetchTokensTask = new AsyncTask() {
             @Override
-            public void success(AccessTokenInfo accessTokenInfo, Response response) {
+            protected Object doInBackground(Object[] params) {
+                AccessTokenInfo accessTokenInfo = SpotifyAPIManager.getAuthService().requestAccessTokens("authorization_code", code, "testschema://callback");
                 TokenStore.setToken(appContext, accessTokenInfo);
+                return null;
             }
+        };
 
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e("fetchAuthRefreshTokens", "Failed to fetch tokens");
-                Log.e("fetchAuthRefreshTokens", error.toString());
-            }
-        });
+        try {
+            fetchTokensTask.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void refreshAuthToken(final Context appContext){
 
-        SpotifyAPIManager.getAuthService().refreshAccessToken("refresh_token", getRefreshToken(appContext), new Callback<AccessTokenInfo>() {
+        AsyncTask refreshAuthTokenTask = new AsyncTask() {
             @Override
-            public void success(AccessTokenInfo accessTokenInfo, Response response) {
+            protected Object doInBackground(Object[] params) {
+                AccessTokenInfo accessTokenInfo = SpotifyAPIManager.getAuthService().refreshAccessToken("refresh_token", getRefreshToken(appContext));
                 TokenStore.setToken(appContext, accessTokenInfo);
+                return null;
             }
+        };
 
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e("fetchAuthRefreshTokens", "Failed to fetch tokens");
-                Log.e("fetchAuthRefreshTokens", error.toString());
-            }
-        });
-
+        try {
+            refreshAuthTokenTask.execute().get();
+            Log.d("refreshAuthToken","Done");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void fetchUserId(final Context appContext){
         final SharedPreferences  sharedPref = getSharedPreferences(appContext);
         String userID = sharedPref.getString(USER_ID, null);
+        long expiresAt = sharedPref.getLong(EXPIRES_AT, 0L);
 
-        if(userID == null){
-            SpotifyAPIManager.getService().getMe(new SpotifyCallback<UserPrivate>() {
+        if(userID == null || System.currentTimeMillis() > expiresAt){
+
+            AsyncTask getMeTask = new AsyncTask() {
                 @Override
-                public void success(UserPrivate userPrivate, Response response) {
+                protected Object doInBackground(Object[] params) {
 
+                    UserPrivate userPrivate = SpotifyAPIManager.getService().getMe();
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString(USER_ID, userPrivate.id);
                     editor.apply();
-                    Log.d("UserID", userPrivate.id);
-                    checkStart(appContext);
+
+                    return null;
                 }
 
-                @Override
-                public void failure(SpotifyError error) {
-                    Log.e("TokenStore", "Failure to retrieve user id");
-                }
-            });
+
+            };
+
+            try {
+                getMeTask.execute().get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private static void checkStart(Context appContext) {
-        if(mStart) {
-            Intent intent = MainActivity.createIntent(appContext);
-            appContext.startActivity(intent);
-        }
-    }
 
     public static void clearToken(Context context) {
         Context appContext = context.getApplicationContext();
@@ -140,7 +151,8 @@ public class TokenStore
         String token = sharedPref.getString(ACCESS_TOKEN, null);
         long expiresAt = sharedPref.getLong(EXPIRES_AT, 0L);
         if(System.currentTimeMillis() > expiresAt){
-            return null;
+            refreshAuthToken(context);
+            return sharedPref.getString(ACCESS_TOKEN, null);
         }
 
         return token;
