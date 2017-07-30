@@ -74,7 +74,6 @@ public class PlaylistActivity extends AppCompatActivity  {
         }
 
         //Set up FAB to launch the Add to playlist activity
-        //TODO: Change this to a better search activity
         fab = (FloatingActionButton) findViewById(R.id.fab_add_songs);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
