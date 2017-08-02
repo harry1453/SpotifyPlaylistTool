@@ -1,9 +1,7 @@
 package com.reissgrvs.spotifyplaylisttool.Activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,7 +9,6 @@ import android.widget.Toast;
 
 import com.reissgrvs.spotifyplaylisttool.R;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore;
-import com.reissgrvs.spotifyplaylisttool.UpdateService.UpdateUtils;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -55,7 +52,6 @@ public class LoginActivity extends Activity {
         // Check if result comes from the correct activity
         if (requestCode == REQUEST_CODE) {
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
-            Log.d(TAG, "Response received");
             switch (response.getType()) {
                 // Response was successful and contains auth token
                 case CODE:
@@ -83,7 +79,7 @@ public class LoginActivity extends Activity {
     private void startMainActivity() {
         TokenStore.refreshAuthToken(this);
 
-        //TODO: Dont do this until above function has completely finished
+
         Intent intent = MainActivity.createIntent(this);
         startActivity(intent);
         finish();

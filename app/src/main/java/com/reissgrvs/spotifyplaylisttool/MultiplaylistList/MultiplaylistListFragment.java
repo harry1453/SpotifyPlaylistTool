@@ -2,6 +2,7 @@
 package com.reissgrvs.spotifyplaylisttool.MultiplaylistList;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -17,22 +18,15 @@ import android.view.ViewGroup;
 import com.reissgrvs.spotifyplaylisttool.Helper.OnStartDragListener;
 import com.reissgrvs.spotifyplaylisttool.Helper.SimpleItemTouchHelperCallback;
 import com.reissgrvs.spotifyplaylisttool.Player.Player;
+import com.reissgrvs.spotifyplaylisttool.PlaylistUpdateUtils.MultiplaylistUtils;
 import com.reissgrvs.spotifyplaylisttool.R;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.SpotifyAPIManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import kaaes.spotify.webapi.android.SpotifyCallback;
 import kaaes.spotify.webapi.android.SpotifyError;
-import kaaes.spotify.webapi.android.SpotifyService;
-import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Playlist;
-import kaaes.spotify.webapi.android.models.PlaylistTrack;
-import kaaes.spotify.webapi.android.models.Result;
-import kaaes.spotify.webapi.android.models.Track;
 import retrofit.client.Response;
 
 
@@ -65,7 +59,7 @@ public class MultiplaylistListFragment extends Fragment implements OnStartDragLi
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        //Recyclerview setup
         RecyclerView recyclerView = (RecyclerView) view;
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
@@ -74,8 +68,8 @@ public class MultiplaylistListFragment extends Fragment implements OnStartDragLi
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
-        Log.d("FragmentMulti", "Child playlists passed to fragment: " + mChildPlaylists.toString());
-        //TODO: Fetch the child playlists of this multiplaylist
+
+
         if(!mChildPlaylists.isEmpty()) {
             String lastItem = mChildPlaylists.get(mChildPlaylists.size() - 1);
             Log.d("FragmentMulti", lastItem);
@@ -91,16 +85,14 @@ public class MultiplaylistListFragment extends Fragment implements OnStartDragLi
         SpotifyAPIManager.getService().getPlaylist(ids[1], ids[0], new SpotifyCallback<Playlist>() {
             @Override
             public void failure(SpotifyError spotifyError) {
-                Log.d("addPlaylistFromIdMulti", "Fuck Spotify Error");
             }
 
             @Override
             public void success(Playlist playlist, Response response) {
-                Log.d("addPlaylistFromIdMulti", "adding " + playlist.name);
+
                 adapter.addPlaylist(playlist);
                 if (last){
-                    Log.d("addPlaylistFromIdMulti", "Last");
-                    MultiplaylistUpdater.updateSpotifyPlaylist(mUserID, mPlaylistID, MultiplaylistUpdater.unpackPlaylists(adapter.getPlaylists()) );
+                    MultiplaylistUtils.executeSyncPlaylistTask(mUserID, mPlaylistID, adapter.getPlaylists());
                 }
             }
         });

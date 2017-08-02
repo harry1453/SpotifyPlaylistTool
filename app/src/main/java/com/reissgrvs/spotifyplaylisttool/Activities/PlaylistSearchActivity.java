@@ -13,9 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
 
-import com.reissgrvs.spotifyplaylisttool.PlaylistSearch.PlaylistSearch;
-import com.reissgrvs.spotifyplaylisttool.PlaylistSearch.PlaylistSearchPresenter;
-import com.reissgrvs.spotifyplaylisttool.PlaylistSearch.PlaylistSearchResultsAdapter;
+import com.reissgrvs.spotifyplaylisttool.MultiplaylistSearch.PlaylistSearch;
+import com.reissgrvs.spotifyplaylisttool.MultiplaylistSearch.PlaylistSearchPresenter;
+import com.reissgrvs.spotifyplaylisttool.MultiplaylistSearch.PlaylistSearchResultsAdapter;
 import com.reissgrvs.spotifyplaylisttool.R;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore;
 import com.reissgrvs.spotifyplaylisttool.Util.ResultListScrollListener;

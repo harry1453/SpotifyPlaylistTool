@@ -1,10 +1,8 @@
-package com.reissgrvs.spotifyplaylisttool.PlaylistSearch;
+package com.reissgrvs.spotifyplaylisttool.MultiplaylistSearch;
 
 import java.util.List;
 
-import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
-import kaaes.spotify.webapi.android.models.Track;
 
 public class PlaylistSearch {
 

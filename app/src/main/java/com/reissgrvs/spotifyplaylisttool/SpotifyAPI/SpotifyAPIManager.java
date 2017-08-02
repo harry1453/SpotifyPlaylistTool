@@ -14,6 +14,7 @@ public class SpotifyAPIManager {
     public static SpotifyService getService(){
         return spotifyApi.getService();
     }
+
     public static SpotifyAuthService getAuthService(){
         return spotifyAuthApi.getService();
     }

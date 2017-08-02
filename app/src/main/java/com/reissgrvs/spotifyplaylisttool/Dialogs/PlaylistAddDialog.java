@@ -84,9 +84,9 @@ public class PlaylistAddDialog extends Dialog implements View.OnClickListener {
                 if (multi) {MultiPlaylistStore.addMulti(item.id);}
 
                 Intent startMultiplaylistActivity = new Intent(getContext(), intentActivity);
-                startMultiplaylistActivity .putExtra(Intent.EXTRA_SUBJECT, item.id)
+                startMultiplaylistActivity.putExtra(Intent.EXTRA_SUBJECT, item.id)
                                             .putExtra(Intent.EXTRA_TEXT, item.name)
-                                            .putExtra(Intent.EXTRA_USER, item.owner.id);
+                                            .putExtra(Intent.EXTRA_USER, TokenStore.getUserId(getContext()));
                 getContext().startActivity(startMultiplaylistActivity);
             }
 

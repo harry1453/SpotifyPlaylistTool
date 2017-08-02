@@ -1,4 +1,4 @@
-package com.reissgrvs.spotifyplaylisttool.PlaylistSearch;
+package com.reissgrvs.spotifyplaylisttool.MultiplaylistSearch;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -12,14 +12,11 @@ import android.widget.TextView;
 import com.reissgrvs.spotifyplaylisttool.R;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.models.Image;
-import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
-import kaaes.spotify.webapi.android.models.Track;
 
 public class PlaylistSearchResultsAdapter extends RecyclerView.Adapter<PlaylistSearchResultsAdapter.ViewHolder> {
 

@@ -1,31 +1,17 @@
-package com.reissgrvs.spotifyplaylisttool.PlaylistSearch;
+package com.reissgrvs.spotifyplaylisttool.MultiplaylistSearch;
 
-import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.ServiceConnection;
-import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.reissgrvs.spotifyplaylisttool.Player.Player;
-import com.reissgrvs.spotifyplaylisttool.Player.PlayerService;
 import com.reissgrvs.spotifyplaylisttool.Util.MyPlaylistsStore;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
-import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
-import kaaes.spotify.webapi.android.models.Track;
 
 public class PlaylistSearchPresenter implements PlaylistSearch.ActionListener {
 
@@ -111,7 +97,7 @@ public class PlaylistSearchPresenter implements PlaylistSearch.ActionListener {
 
     @Override
     public void selectPlaylist(PlaylistSimple item) {
-        //TODO: For if someone clicks on playlists
+
     }
 
     private void logError(String msg) {

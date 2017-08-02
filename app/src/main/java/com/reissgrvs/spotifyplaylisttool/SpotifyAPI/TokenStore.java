@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.reissgrvs.spotifyplaylisttool.Activities.MainActivity;
+import com.reissgrvs.spotifyplaylisttool.Util.MultiPlaylistStore;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 
 import java.util.concurrent.ExecutionException;
@@ -85,12 +86,12 @@ public class TokenStore
 
         try {
             refreshAuthTokenTask.execute().get();
-            Log.d("refreshAuthToken","Done");
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+
     }
 
     public static void fetchUserId(final Context appContext){
@@ -108,7 +109,6 @@ public class TokenStore
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString(USER_ID, userPrivate.id);
                     editor.apply();
-
                     return null;
                 }
 

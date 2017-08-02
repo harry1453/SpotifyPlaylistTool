@@ -1,4 +1,4 @@
-package com.reissgrvs.spotifyplaylisttool.PlaylistSearch;
+package com.reissgrvs.spotifyplaylisttool.MultiplaylistSearch;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,11 +7,8 @@ import java.util.Map;
 import kaaes.spotify.webapi.android.SpotifyCallback;
 import kaaes.spotify.webapi.android.SpotifyError;
 import kaaes.spotify.webapi.android.SpotifyService;
-import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
 import kaaes.spotify.webapi.android.models.PlaylistsPager;
-import kaaes.spotify.webapi.android.models.Track;
-import kaaes.spotify.webapi.android.models.TracksPager;
 import retrofit.client.Response;
 
 public class PlaylistSearchPager {

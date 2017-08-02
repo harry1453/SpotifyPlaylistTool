@@ -3,6 +3,8 @@ package com.reissgrvs.spotifyplaylisttool.Util;
 import android.content.Context;
 import android.util.Log;
 
+import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -36,9 +38,6 @@ public class MultiPlaylistStore {
 
     }
 
-    static public HashMap<String, ArrayList<String>> getMultiplaylistStore(){
-        return multiplaylistStore;
-    }
 
     static public void saveMultiPlaylistFile(Context mContext){
         try {
@@ -63,12 +62,10 @@ public class MultiPlaylistStore {
     }
 
     static public ArrayList<String> getMulti(String playlistID){
-        Log.d("getMulti", "fetched multi with children: " + multiplaylistStore.get(playlistID).toString() );
         return multiplaylistStore.get(playlistID);
     }
 
     static public boolean isMulti(String playlistID){
-        Log.d("isMulti", playlistID);
         return multiplaylistStore.containsKey(playlistID);
     }
 }

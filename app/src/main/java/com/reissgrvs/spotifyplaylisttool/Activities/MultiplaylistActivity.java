@@ -44,23 +44,18 @@ public class MultiplaylistActivity extends AppCompatActivity  {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_multiplaylist);
         setSupportActionBar(toolbar);
 
-        Intent intentThatStartedThisActivity = getIntent();
-        if (intentThatStartedThisActivity.hasExtra("childPlaylists")) {
-            childPlaylists = intentThatStartedThisActivity.getStringArrayListExtra("childPlaylists");
-        }
-        Log.d("Multi", "Child playlists of selected multi: " + childPlaylists.toString());
-        if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
-            String playlistTitle = intentThatStartedThisActivity.getStringExtra(Intent.EXTRA_TEXT);
+        Intent ownerIntent = getIntent();
+
+        if (ownerIntent.hasExtra("childPlaylists") && ownerIntent.hasExtra(Intent.EXTRA_TEXT) && ownerIntent.hasExtra(Intent.EXTRA_SUBJECT) && ownerIntent.hasExtra(Intent.EXTRA_USER)) {
+            childPlaylists = ownerIntent.getStringArrayListExtra("childPlaylists");
+            String playlistTitle = ownerIntent.getStringExtra(Intent.EXTRA_TEXT);
             getSupportActionBar().setTitle(playlistTitle);
+            playlistID = ownerIntent.getStringExtra(Intent.EXTRA_SUBJECT);
+            userID = ownerIntent.getStringExtra(Intent.EXTRA_USER);
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        if(intentThatStartedThisActivity.hasExtra(Intent.EXTRA_SUBJECT) && intentThatStartedThisActivity.hasExtra(Intent.EXTRA_USER)){
-            playlistID = intentThatStartedThisActivity.getStringExtra(Intent.EXTRA_SUBJECT);
-            userID = intentThatStartedThisActivity.getStringExtra(Intent.EXTRA_USER);
-        }
 
         Bundle args = new Bundle();
         args.putString("playlistID", playlistID);
@@ -87,6 +82,7 @@ public class MultiplaylistActivity extends AppCompatActivity  {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == 1) {
+
             if(resultCode == Activity.RESULT_OK){
                 ArrayList<PlaylistSimple> result = data.getParcelableArrayListExtra("result");
 
@@ -97,11 +93,13 @@ public class MultiplaylistActivity extends AppCompatActivity  {
                 }
 
                 MultiPlaylistStore.addToMulti(playlistID, childPlaylists, this);
-
+                recreate();
             }
-            if (resultCode == Activity.RESULT_CANCELED) {
+
+            else if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
             }
+
         }
     }
 

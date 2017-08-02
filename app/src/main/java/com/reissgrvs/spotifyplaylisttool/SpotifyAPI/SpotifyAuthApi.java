@@ -23,19 +23,17 @@ import retrofit.android.MainThreadExecutor;
  * so if you know you'll only use the ones that don't require authorisation
  * you can skip this step:
  * wrapper.setAccessToken(authenticationResponse.getAccessToken());
- *
- * SpotifyService spotify = wrapper.getService();
- *
- * Album album = spotify.getAlbum("2dIGnmEIy1WZIcZCFSj6i8");
  */
 public class SpotifyAuthApi {
 
     /**
      * Main Spotify Web API endpoint
      */
+
     public static final String SPOTIFY_AUTH_API_ENDPOINT = "https://accounts.spotify.com";
     private static String mClientID = "3c0e3597d0304162a89f4c2c6002e2a7";
     private static String mClientSecret = "7192054f745a4f799a6b1d6c3a5f2de6";
+
     /**
      * The request interceptor that will add the header with OAuth
      * token to every request made with the wrapper.
