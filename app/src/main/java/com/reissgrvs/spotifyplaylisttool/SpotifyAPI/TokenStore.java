@@ -61,9 +61,9 @@ public class TokenStore
 
     public static void refreshAuthToken(final Context appContext){
 
-        AsyncTask refreshAuthTokenTask = new AsyncTask() {
+        AsyncTask<Void,Void,Void> refreshAuthTokenTask = new AsyncTask<Void, Void, Void>() {
             @Override
-            protected Object doInBackground(Object[] params) {
+            protected Void doInBackground(Void... voids) {
                 AccessTokenInfo accessTokenInfo = SpotifyAPIManager.getAuthService().refreshAccessToken("refresh_token", getRefreshToken(appContext));
                 TokenStore.setToken(appContext, accessTokenInfo);
                 return null;
@@ -77,30 +77,27 @@ public class TokenStore
 
     }
 
-    public static void fetchUserId(final Context appContext) throws InterruptedException {
+    public static void fetchUserId(final Context appContext)  {
         final SharedPreferences  sharedPref = getSharedPreferences(appContext);
         String userID = sharedPref.getString(USER_ID, null);
         long expiresAt = sharedPref.getLong(EXPIRES_AT, 0L);
 
         if(userID == null || System.currentTimeMillis() > expiresAt){
 
-            AsyncTask getMeTask = new AsyncTask() {
+            AsyncTask<Void,Void,Void> getMeTask = new AsyncTask<Void, Void, Void>() {
                 @Override
-                protected Object doInBackground(Object[] params) {
-
+                protected Void doInBackground(Void... voids) {
                     UserPrivate userPrivate = SpotifyAPIManager.getService().getMe();
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString(USER_ID, userPrivate.id);
                     editor.apply();
                     return null;
                 }
-
-
             };
 
             try {
                 getMeTask.execute().get();
-            } catch (ExecutionException ignored) {}
+            } catch (ExecutionException | InterruptedException ignored) {}
         }
     }
 
