@@ -46,16 +46,21 @@ public class MultiplaylistActivity extends AppCompatActivity  {
 
         Intent ownerIntent = getIntent();
 
-        if (ownerIntent.hasExtra("childPlaylists") && ownerIntent.hasExtra(Intent.EXTRA_TEXT) && ownerIntent.hasExtra(Intent.EXTRA_SUBJECT) && ownerIntent.hasExtra(Intent.EXTRA_USER)) {
-            childPlaylists = ownerIntent.getStringArrayListExtra("childPlaylists");
+        if (ownerIntent.hasExtra(Intent.EXTRA_TEXT)) {
+
             String playlistTitle = ownerIntent.getStringExtra(Intent.EXTRA_TEXT);
             getSupportActionBar().setTitle(playlistTitle);
+        }
+
+        if (ownerIntent.hasExtra(Intent.EXTRA_SUBJECT) && ownerIntent.hasExtra(Intent.EXTRA_USER))
+        {
             playlistID = ownerIntent.getStringExtra(Intent.EXTRA_SUBJECT);
             userID = ownerIntent.getStringExtra(Intent.EXTRA_USER);
         }
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        if (ownerIntent.hasExtra("childPlaylists")) {
+            childPlaylists = ownerIntent.getStringArrayListExtra("childPlaylists");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         Bundle args = new Bundle();
         args.putString("playlistID", playlistID);

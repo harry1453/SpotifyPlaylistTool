@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.Driver;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
@@ -13,13 +14,10 @@ import com.firebase.jobdispatcher.Trigger;
 
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by reissgrvs on 03/08/17.
- */
 
 public class UpdateScheduler {
 
-    private static final int REMINDER_INTERVAL_MINUTES = 1;
+    private static final int REMINDER_INTERVAL_MINUTES = 120;
     private static final int REMINDER_INTERVAL_SECONDS = (int) (TimeUnit.MINUTES.toSeconds(REMINDER_INTERVAL_MINUTES));
     private static final int SYNC_FLEXTIME_SECONDS = REMINDER_INTERVAL_SECONDS;
 
@@ -52,7 +50,8 @@ public class UpdateScheduler {
                    * syncing your application's data.
                    */
                   //.setConstraints(Constraint.DEVICE_CHARGING
-                // .setConstraints(Constraint.ON_ANY_NETWORK)
+
+                 .setConstraints(Constraint.ON_ANY_NETWORK)
                   /*
                    * setLifetime sets how long this job should persist. The options are to keep the
                    * Job "forever" or to have it die the next time the device boots up.

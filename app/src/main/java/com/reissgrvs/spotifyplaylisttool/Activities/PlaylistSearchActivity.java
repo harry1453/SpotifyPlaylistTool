@@ -124,7 +124,7 @@ public class PlaylistSearchActivity extends AppCompatActivity implements Playlis
         resultsList.setAdapter(mAdapter);
         resultsList.addOnScrollListener(mScrollListener);
 
-        // If Activity was recreated wit active search restore it
+        // If Activity was recreated with active search restore it
         if (savedInstanceState != null) {
             String currentQuery = savedInstanceState.getString(KEY_CURRENT_QUERY);
             mActionListener.search(currentQuery);

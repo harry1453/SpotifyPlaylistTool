@@ -2,6 +2,7 @@ package com.reissgrvs.spotifyplaylisttool.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.reissgrvs.spotifyplaylisttool.CustomTrack;
+import com.reissgrvs.spotifyplaylisttool.PlaylistUpdateUtils.PlaylistUpdateUtils;
 import com.reissgrvs.spotifyplaylisttool.R;
 import com.reissgrvs.spotifyplaylisttool.SongList.SongListFragment;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.SpotifyAPIManager;
@@ -94,29 +97,25 @@ public class PlaylistActivity extends AppCompatActivity  {
 
                 //Set up arguments
                 ArrayList<Track> result = data.getParcelableArrayListExtra("result");
-
-                Map<String, Object> body = new HashMap<>();
-                Map<String, Object> query = new HashMap<>();
-
-                String trackList = "";
-                for (Track track : result){
-                    trackList += track.uri + ",";
+                final ArrayList<CustomTrack> customTrackArrayList = new ArrayList<>();
+                for(Track cur : result){
+                    customTrackArrayList.add(new CustomTrack(cur));
                 }
-                query.put( "uris", trackList.substring(0,trackList.length()-1) );
 
-
-                //TODO: Make sure to handle this properly when there is more than 50
-                SpotifyAPIManager.getService().addTracksToPlaylist(userID,playlistID, query, body ,new SpotifyCallback<Pager<PlaylistTrack>>() {
+                new AsyncTask() {
                     @Override
-                    public void success(Pager<PlaylistTrack> tracks, Response response) {
+                    protected void onPostExecute(Object o) {
                         recreate();
                     }
 
                     @Override
-                    public void failure(SpotifyError error){
-                        Log.e("Track Add", "Failed to add tracks or something");
+                    protected Object doInBackground(Object[] objects) {
+                        PlaylistUpdateUtils.addTracks(userID, playlistID, customTrackArrayList);
+                        return null;
                     }
-                });
+                }.execute();
+
+
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write some code if there's no result

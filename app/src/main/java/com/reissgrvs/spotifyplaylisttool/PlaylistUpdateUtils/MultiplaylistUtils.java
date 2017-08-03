@@ -1,9 +1,8 @@
 package com.reissgrvs.spotifyplaylisttool.PlaylistUpdateUtils;
 
 import android.content.Context;
-import android.media.session.MediaSession;
 import android.os.AsyncTask;
-import android.util.Log;
+
 
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.AccessTokenInfo;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.SpotifyAPIManager;
@@ -11,20 +10,12 @@ import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore;
 import com.reissgrvs.spotifyplaylisttool.Util.MultiPlaylistStore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
-import kaaes.spotify.webapi.android.SpotifyCallback;
-import kaaes.spotify.webapi.android.SpotifyError;
 import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
-import kaaes.spotify.webapi.android.models.Result;
-import retrofit.client.Response;
 
-import static android.R.id.list;
 import static com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore.getRefreshToken;
 
 
@@ -58,10 +49,10 @@ public class MultiplaylistUtils {
     }
 
     private static void updateSpotify(final String userID, final String playlistID, final ArrayList<PlaylistTrack> newTrackArray){
-
-        ArrayList<PlaylistTrack> oldTrackArray = new ArrayList<>(SpotifyAPIManager.getService().getPlaylist(userID,playlistID).tracks.items);
-        PlaylistUpdateUtils.updateSpotifyPlaylist(userID,playlistID, oldTrackArray, newTrackArray);
-
+        if(!userID.equals("NO ID") && !playlistID.equals("NO ID")) {
+            ArrayList<PlaylistTrack> oldTrackArray = new ArrayList<>(SpotifyAPIManager.getService().getPlaylist(userID, playlistID).tracks.items);
+            PlaylistUpdateUtils.updateSpotifyPlaylist(userID, playlistID, oldTrackArray, newTrackArray);
+        }
     }
 
     private static List<Playlist> getPlaylistsFromId(List<String> childPlaylistIDs){
@@ -74,8 +65,7 @@ public class MultiplaylistUtils {
 
     private static Playlist getPlaylistFromId(String id) {
         String[] ids = id.split("-");
-        Playlist playlist = SpotifyAPIManager.getService().getPlaylist(ids[1], ids[0]);
-        return playlist;
+        return SpotifyAPIManager.getService().getPlaylist(ids[1], ids[0]);
     }
 
     private static void executeSyncPlaylistTask(final String userID, final String playlistID){
@@ -107,7 +97,6 @@ public class MultiplaylistUtils {
                 Set<String> playlistIDs = MultiPlaylistStore.getPlaylistIDs();
 
                 for(String curPlaylistID : playlistIDs ){
-                    //TODO: Update each playlist
                     executeSyncPlaylistTask(userID, curPlaylistID);
                 }
 

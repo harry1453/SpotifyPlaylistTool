@@ -1,6 +1,5 @@
 package com.reissgrvs.spotifyplaylisttool.PlaylistUpdateUtils;
 
-import android.util.Log;
 
 import com.reissgrvs.spotifyplaylisttool.CustomTrack;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.SpotifyAPIManager;
@@ -13,19 +12,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import kaaes.spotify.webapi.android.SpotifyCallback;
-import kaaes.spotify.webapi.android.SpotifyError;
-import kaaes.spotify.webapi.android.models.Pager;
+
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
-import kaaes.spotify.webapi.android.models.SnapshotId;
-import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.TrackToRemove;
 import kaaes.spotify.webapi.android.models.TracksToRemove;
-import retrofit.client.Response;
 
-/**
- * Created by reissgrvs on 01/08/17.
- */
 
 public class PlaylistUpdateUtils {
 
@@ -59,7 +50,6 @@ public class PlaylistUpdateUtils {
         addTracks(userID, playlistID, newTrackSet);
 
     }
-
 
 
     public static void addTracks(String userID, String playlistID, Collection<CustomTrack> newTracks){

@@ -92,7 +92,6 @@ public class PlaylistAddDialog extends Dialog implements View.OnClickListener {
 
             @Override
             public void failure(SpotifyError error) {
-                //TODO: Handle errors appropriately
             }
         });
 

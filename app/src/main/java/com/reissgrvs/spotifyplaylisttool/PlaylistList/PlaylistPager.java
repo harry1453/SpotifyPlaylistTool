@@ -64,7 +64,7 @@ public class PlaylistPager {
             public void success(Pager<PlaylistSimple> playlistPager, Response response) {
                 List<PlaylistSimple> items = playlistPager.items;
                 List<PlaylistSimple> userItems = new ArrayList<>();
-                //TODO: Maybe save these to file or something so that can be accessed in playlist search
+                //TODO: Maybe save these to file or something so that can be accessed in playlist search. Definitely dont use the abomination below
 
                 if(!items.isEmpty()) {
 
