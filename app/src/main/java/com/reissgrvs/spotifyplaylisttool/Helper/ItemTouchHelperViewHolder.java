@@ -16,9 +16,6 @@
 
 package com.reissgrvs.spotifyplaylisttool.Helper;
 
-import android.support.v7.widget.helper.ItemTouchHelper;
-
-import kaaes.spotify.webapi.android.models.PlaylistTrack;
 
 
 public interface ItemTouchHelperViewHolder {

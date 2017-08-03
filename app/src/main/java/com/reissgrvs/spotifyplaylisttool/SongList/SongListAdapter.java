@@ -20,12 +20,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import kaaes.spotify.webapi.android.models.PlaylistSimple;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.Track;
 
 
-public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ItemViewHolder>
+class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ItemViewHolder>
         implements ItemTouchHelperAdapter {
 
     private final List<PlaylistTrack> mItems = new ArrayList<>();
@@ -99,7 +98,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ItemVi
     }
 
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder implements
+    class ItemViewHolder extends RecyclerView.ViewHolder implements
             ItemTouchHelperViewHolder{
 
         final TextView titleView;

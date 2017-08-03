@@ -32,14 +32,14 @@ public class PlaylistSearchResultsAdapter extends RecyclerView.Adapter<PlaylistS
         boolean isItemReserved(PlaylistSimple item);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public final TextView title;
-        public final TextView subtitle;
-        public final ImageView image;
-        public final CheckBox checkBox;
+        final TextView title;
+        final TextView subtitle;
+        final ImageView image;
+        final CheckBox checkBox;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.song_search_entity_title);
             subtitle = (TextView) itemView.findViewById(R.id.song_search_entity_subtitle);
@@ -93,7 +93,7 @@ public class PlaylistSearchResultsAdapter extends RecyclerView.Adapter<PlaylistS
                 Picasso.with(mContext).load(image.url).into(holder.image);
             }
         }
-        catch (IndexOutOfBoundsException e){
+        catch (IndexOutOfBoundsException ignored){
 
         }
 

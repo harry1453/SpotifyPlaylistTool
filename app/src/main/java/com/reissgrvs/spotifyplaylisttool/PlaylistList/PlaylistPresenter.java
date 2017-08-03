@@ -9,9 +9,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.reissgrvs.spotifyplaylisttool.Activities.MainActivity;
 import com.reissgrvs.spotifyplaylisttool.Activities.MultiplaylistActivity;
-import com.reissgrvs.spotifyplaylisttool.Player.Player;
 import com.reissgrvs.spotifyplaylisttool.Player.PlayerService;
 import com.reissgrvs.spotifyplaylisttool.Activities.PlaylistActivity;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.SpotifyAPIManager;
@@ -24,7 +22,7 @@ import kaaes.spotify.webapi.android.models.PlaylistSimple;
 public class PlaylistPresenter implements UserPlaylist.ActionListener {
 
     private static final String TAG = PlaylistPresenter.class.getSimpleName();
-    public static final int PAGE_SIZE = 50;
+    private static final int PAGE_SIZE = 50;
 
     private final Context mContext;
     private final UserPlaylist.View mView;
@@ -32,17 +30,14 @@ public class PlaylistPresenter implements UserPlaylist.ActionListener {
     private PlaylistPager mPlaylistPager;
     private PlaylistPager.CompleteListener mPlaylistListener;
 
-    private Player mPlayer;
-
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            mPlayer = ((PlayerService.PlayerBinder) service).getService();
+            ((PlayerService.PlayerBinder) service).getService();
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            mPlayer = null;
         }
     };
 
@@ -124,8 +119,4 @@ public class PlaylistPresenter implements UserPlaylist.ActionListener {
         Log.e(TAG, msg);
     }
 
-    private void logMessage(String msg) {
-        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
-        Log.d(TAG, msg);
-    }
 }

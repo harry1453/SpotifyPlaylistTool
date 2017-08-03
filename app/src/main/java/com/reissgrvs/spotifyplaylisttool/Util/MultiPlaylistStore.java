@@ -1,10 +1,6 @@
 package com.reissgrvs.spotifyplaylisttool.Util;
 
 import android.content.Context;
-import android.util.Log;
-
-import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,14 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-/**
- * Created by Reiss on 26/06/2017.
- */
-
 public class MultiPlaylistStore {
 
     //TODO: Make files user specific
-    static String FILENAME = "multistore.ser";
+    static private String FILENAME = "multistore.ser";
     static private HashMap<String, ArrayList<String>> multiplaylistStore;
 
 
@@ -40,7 +32,7 @@ public class MultiPlaylistStore {
 
     static public Set<String> getPlaylistIDs(){
         return multiplaylistStore.keySet();
-    };
+    }
 
 
     static public void saveMultiPlaylistFile(Context mContext){

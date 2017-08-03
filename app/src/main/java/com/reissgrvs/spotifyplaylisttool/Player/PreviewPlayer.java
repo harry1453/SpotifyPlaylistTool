@@ -7,7 +7,7 @@ import android.util.Log;
 
 import java.io.IOException;
 
-public class PreviewPlayer implements Player, MediaPlayer.OnCompletionListener {
+class PreviewPlayer implements Player, MediaPlayer.OnCompletionListener {
 
     private static final String TAG = PreviewPlayer.class.getSimpleName();
 
@@ -18,7 +18,7 @@ public class PreviewPlayer implements Player, MediaPlayer.OnCompletionListener {
 
         private final String mUrl;
 
-        public OnPreparedListener(String url) {
+        OnPreparedListener(String url) {
             mUrl = url;
         }
 

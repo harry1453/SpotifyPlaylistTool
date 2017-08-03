@@ -20,7 +20,7 @@ import kaaes.spotify.webapi.android.models.Track;
 public class SongSearchPresenter implements SongSearch.ActionListener {
 
     private static final String TAG = SongSearchPresenter.class.getSimpleName();
-    public static final int PAGE_SIZE = 20;
+    private static final int PAGE_SIZE = 20;
 
     private final Context mContext;
     private final SongSearch.View mView;

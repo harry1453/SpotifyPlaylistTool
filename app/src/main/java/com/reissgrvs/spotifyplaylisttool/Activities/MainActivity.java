@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements UserPlaylist.View
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_main);
+        //noinspection ConstantConditions
         getSupportActionBar().setElevation(24);
 
         String token = TokenStore.getAuthToken(this);

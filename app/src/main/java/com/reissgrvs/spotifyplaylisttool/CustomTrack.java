@@ -1,12 +1,8 @@
 package com.reissgrvs.spotifyplaylisttool;
 
-import android.util.Log;
-
 import kaaes.spotify.webapi.android.models.Track;
 
-/**
- * Created by reissgrvs on 02/08/17.
- */
+
 
 //Shit work around class so I could use HashSets for playlist membership checking
 public class CustomTrack {
@@ -28,6 +24,6 @@ public class CustomTrack {
 
     @Override
     public boolean equals(Object obj) {
-        return true;
+        return (obj instanceof CustomTrack) && ((CustomTrack) obj).mTrack.id.equals(mTrack.id);
     }
 }

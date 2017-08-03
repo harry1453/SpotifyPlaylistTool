@@ -23,7 +23,6 @@ import com.reissgrvs.spotifyplaylisttool.Util.ResultListScrollListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
 
 public class PlaylistSearchActivity extends AppCompatActivity implements PlaylistSearch.View {
@@ -44,8 +43,7 @@ public class PlaylistSearchActivity extends AppCompatActivity implements Playlis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_search);
-        Intent intent = getIntent();
-        intent.toString();
+
         if(getIntent().hasExtra("playlists")) {
             Log.d("PlaylistSearchActivity", "Has extra");
             mReservedPlaylists = getIntent().getStringArrayListExtra("playlists");
@@ -176,7 +174,7 @@ public class PlaylistSearchActivity extends AppCompatActivity implements Playlis
 
     private class ScrollListener extends ResultListScrollListener {
 
-        public ScrollListener(LinearLayoutManager layoutManager) {
+        private ScrollListener(LinearLayoutManager layoutManager) {
             super(layoutManager);
         }
 

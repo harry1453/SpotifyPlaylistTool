@@ -3,33 +3,22 @@ package com.reissgrvs.spotifyplaylisttool.Activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.reissgrvs.spotifyplaylisttool.MultiplaylistList.MultiplaylistListFragment;
 import com.reissgrvs.spotifyplaylisttool.R;
-import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.SpotifyAPIManager;
 import com.reissgrvs.spotifyplaylisttool.Util.MultiPlaylistStore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import kaaes.spotify.webapi.android.SpotifyCallback;
-import kaaes.spotify.webapi.android.SpotifyError;
-import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
-import kaaes.spotify.webapi.android.models.PlaylistTrack;
-import kaaes.spotify.webapi.android.models.Track;
-import retrofit.client.Response;
+
 
 public class MultiplaylistActivity extends AppCompatActivity  {
 
@@ -54,6 +43,7 @@ public class MultiplaylistActivity extends AppCompatActivity  {
         if (ownerIntent.hasExtra(Intent.EXTRA_TEXT)) {
 
             String playlistTitle = ownerIntent.getStringExtra(Intent.EXTRA_TEXT);
+            //noinspection ConstantConditions
             getSupportActionBar().setTitle(playlistTitle);
         }
 
@@ -84,7 +74,7 @@ public class MultiplaylistActivity extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 Intent intent = PlaylistSearchActivity.createIntent(getBaseContext());
-                ArrayList<String> playlistIDs = new ArrayList<String>();
+                ArrayList<String> playlistIDs = new ArrayList<>();
                 for (Playlist playlist : fragment.getPlaylists())
                 {
                     playlistIDs.add(playlist.id);
@@ -110,10 +100,6 @@ public class MultiplaylistActivity extends AppCompatActivity  {
 
                 MultiPlaylistStore.addToMulti(playlistID, childPlaylists, this);
                 recreate();
-            }
-
-            else if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
             }
 
         }

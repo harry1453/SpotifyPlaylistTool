@@ -1,8 +1,7 @@
 
 package com.reissgrvs.spotifyplaylisttool.MultiplaylistList;
 
-import android.content.Context;
-import android.os.AsyncTask;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -18,7 +17,6 @@ import android.view.ViewGroup;
 import com.reissgrvs.spotifyplaylisttool.Activities.MultiplaylistActivity;
 import com.reissgrvs.spotifyplaylisttool.Helper.OnStartDragListener;
 import com.reissgrvs.spotifyplaylisttool.Helper.SimpleItemTouchHelperCallback;
-import com.reissgrvs.spotifyplaylisttool.Player.Player;
 import com.reissgrvs.spotifyplaylisttool.PlaylistUpdateUtils.MultiplaylistUtils;
 import com.reissgrvs.spotifyplaylisttool.R;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.SpotifyAPIManager;
@@ -38,8 +36,6 @@ public class MultiplaylistListFragment extends Fragment implements OnStartDragLi
     private String mUserID;
     private ArrayList<String> mChildPlaylists;
     final MultiplaylistListAdapter adapter;
-    private Context mContext;
-    private Player mPlayer;
     private RecyclerView recyclerView;
 
     public MultiplaylistListFragment() {
@@ -52,9 +48,7 @@ public class MultiplaylistListFragment extends Fragment implements OnStartDragLi
         mPlaylistID = getArguments().getString("playlistID");
         mUserID = getArguments().getString("userID");
         mChildPlaylists = getArguments().getStringArrayList("childPlaylists");
-        RecyclerView recyclerView = new RecyclerView(container.getContext());
-        mContext = getContext();
-        return recyclerView;
+        return new RecyclerView(container.getContext());
     }
 
     @Override

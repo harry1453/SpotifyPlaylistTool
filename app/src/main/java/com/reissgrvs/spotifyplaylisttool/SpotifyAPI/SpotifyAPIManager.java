@@ -3,9 +3,6 @@ package com.reissgrvs.spotifyplaylisttool.SpotifyAPI;
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 
-/**
- * Created by Reiss on 08/06/2017.
- */
 
 public class SpotifyAPIManager {
     private static final SpotifyApi spotifyApi = new SpotifyApi();

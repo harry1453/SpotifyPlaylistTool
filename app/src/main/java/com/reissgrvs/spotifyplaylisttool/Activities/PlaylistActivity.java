@@ -4,41 +4,29 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import com.reissgrvs.spotifyplaylisttool.CustomTrack;
 import com.reissgrvs.spotifyplaylisttool.PlaylistUpdateUtils.PlaylistUpdateUtils;
 import com.reissgrvs.spotifyplaylisttool.R;
 import com.reissgrvs.spotifyplaylisttool.SongList.SongListFragment;
-import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.SpotifyAPIManager;
-import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import kaaes.spotify.webapi.android.SpotifyCallback;
-import kaaes.spotify.webapi.android.SpotifyError;
-import kaaes.spotify.webapi.android.models.Pager;
-import kaaes.spotify.webapi.android.models.PlaylistSimple;
-import kaaes.spotify.webapi.android.models.PlaylistTrack;
-import kaaes.spotify.webapi.android.models.SnapshotId;
 import kaaes.spotify.webapi.android.models.Track;
-import retrofit.client.Response;
+
 
 public class PlaylistActivity extends AppCompatActivity  {
 
 
     private SongListFragment fragment = new SongListFragment();
-    private FloatingActionButton fab;
     private String playlistID = "NO ID";
     private String userID = "NO ID";
+    public static final String PLAYLIST_ID =  "playlistID";
+    public static final String USER_ID =  "userID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +41,7 @@ public class PlaylistActivity extends AppCompatActivity  {
 
         if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
             String playlistTitle = intentThatStartedThisActivity.getStringExtra(Intent.EXTRA_TEXT);
+            //noinspection ConstantConditions
             getSupportActionBar().setTitle(playlistTitle);
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -66,8 +55,8 @@ public class PlaylistActivity extends AppCompatActivity  {
 
         //Set up Song List fragment
         Bundle args = new Bundle();
-        args.putString("playlistID", playlistID);
-        args.putString("userID", userID);
+        args.putString(PLAYLIST_ID, playlistID);
+        args.putString(USER_ID, userID);
 
         if (savedInstanceState == null) {
             fragment.setArguments(args);
@@ -77,7 +66,7 @@ public class PlaylistActivity extends AppCompatActivity  {
         }
 
         //Set up FAB to launch the Add to playlist activity
-        fab = (FloatingActionButton) findViewById(R.id.fab_add_songs);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_add_songs);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,23 +91,15 @@ public class PlaylistActivity extends AppCompatActivity  {
                     customTrackArrayList.add(new CustomTrack(cur));
                 }
 
-                new AsyncTask() {
+                new AsyncTask<Void, Void, Void>() {
                     @Override
-                    protected void onPostExecute(Object o) {
-                        recreate();
-                    }
-
-                    @Override
-                    protected Object doInBackground(Object[] objects) {
+                    protected Void doInBackground(Void... voids) {
                         PlaylistUpdateUtils.addTracks(userID, playlistID, customTrackArrayList);
                         return null;
                     }
                 }.execute();
 
 
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //Write some code if there's no result
             }
         }
     }

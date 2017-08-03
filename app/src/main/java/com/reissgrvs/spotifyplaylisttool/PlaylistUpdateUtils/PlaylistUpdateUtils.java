@@ -20,7 +20,7 @@ import kaaes.spotify.webapi.android.models.TracksToRemove;
 
 public class PlaylistUpdateUtils {
 
-    public static void updateSpotifyPlaylist(String userID, String playlistID, ArrayList<PlaylistTrack> oldTrackArray, ArrayList<PlaylistTrack> newTrackArray){
+    static void updateSpotifyPlaylist(String userID, String playlistID, ArrayList<PlaylistTrack> oldTrackArray, ArrayList<PlaylistTrack> newTrackArray){
 
         //Populate oldTrackSet and newTrackSet
         Set<CustomTrack> oldTrackSet = new HashSet<>();
@@ -68,7 +68,7 @@ public class PlaylistUpdateUtils {
         }
     }
 
-    public static void removeTracks(String userID, String playlistID, Collection<CustomTrack> oldTracks){
+    private static void removeTracks(String userID, String playlistID, Collection<CustomTrack> oldTracks){
 
         if(!oldTracks.isEmpty()) {
             TracksToRemove tracksToRemove = packageTracksToRemove(oldTracks);

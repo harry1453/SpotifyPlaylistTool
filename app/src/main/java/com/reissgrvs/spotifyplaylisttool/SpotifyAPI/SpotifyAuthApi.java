@@ -5,8 +5,6 @@ import android.util.Base64;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import kaaes.spotify.webapi.android.SpotifyApi;
-import kaaes.spotify.webapi.android.SpotifyService;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.android.MainThreadExecutor;
@@ -24,15 +22,13 @@ import retrofit.android.MainThreadExecutor;
  * you can skip this step:
  * wrapper.setAccessToken(authenticationResponse.getAccessToken());
  */
-public class SpotifyAuthApi {
+class SpotifyAuthApi {
 
     /**
      * Main Spotify Web API endpoint
      */
 
-    public static final String SPOTIFY_AUTH_API_ENDPOINT = "https://accounts.spotify.com";
-    private static String mClientID = "3c0e3597d0304162a89f4c2c6002e2a7";
-    private static String mClientSecret = "7192054f745a4f799a6b1d6c3a5f2de6";
+    private static final String SPOTIFY_AUTH_API_ENDPOINT = "https://accounts.spotify.com";
 
     /**
      * The request interceptor that will add the header with OAuth
@@ -41,7 +37,10 @@ public class SpotifyAuthApi {
     private class WebApiAuthenticator implements RequestInterceptor {
         @Override
         public void intercept(RequestFacade request) {
+            String mClientID = "3c0e3597d0304162a89f4c2c6002e2a7";
+            String mClientSecret = "7192054f745a4f799a6b1d6c3a5f2de6";
             String clientComposition =  mClientID + ":" + mClientSecret;
+
             byte[] encodedBytes = Base64.encode(clientComposition.getBytes(), Base64.NO_WRAP);
             request.addHeader("Authorization", "Basic " + new String(encodedBytes));
             request.addHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -66,7 +65,7 @@ public class SpotifyAuthApi {
     }
 
 
-    public SpotifyAuthApi() {
+    SpotifyAuthApi() {
         Executor httpExecutor = Executors.newSingleThreadExecutor();
         MainThreadExecutor callbackExecutor = new MainThreadExecutor();
         mSpotifyService = init(httpExecutor, callbackExecutor);

@@ -1,20 +1,17 @@
 package com.reissgrvs.spotifyplaylisttool.Dialogs;
 
-import android.app.Activity;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.reissgrvs.spotifyplaylisttool.Activities.MainActivity;
 import com.reissgrvs.spotifyplaylisttool.Activities.MultiplaylistActivity;
 import com.reissgrvs.spotifyplaylisttool.Activities.PlaylistActivity;
 import com.reissgrvs.spotifyplaylisttool.R;
@@ -27,23 +24,14 @@ import java.util.Map;
 
 import kaaes.spotify.webapi.android.SpotifyCallback;
 import kaaes.spotify.webapi.android.SpotifyError;
-import kaaes.spotify.webapi.android.SpotifyService;
-import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Playlist;
-import kaaes.spotify.webapi.android.models.PlaylistSimple;
-import kaaes.spotify.webapi.android.models.UserPrivate;
 import retrofit.client.Response;
 
-/**
- * Created by Reiss on 12/06/2017.
- */
 
 public class PlaylistAddDialog extends Dialog implements View.OnClickListener {
-    Context mContext;
     public PlaylistAddDialog(@NonNull Context context) {
 
         super(context);
-        mContext = context;
     }
 
     @Override
@@ -67,7 +55,7 @@ public class PlaylistAddDialog extends Dialog implements View.OnClickListener {
 
     }
 
-    public void createPlaylist(final Boolean multi, String playlistName, String playlistDescription, Boolean publicPlaylist){
+    private void createPlaylist(final Boolean multi, String playlistName, String playlistDescription, Boolean publicPlaylist){
         //Set up parameters
         Map<String, Object> options = new HashMap<>();
         options.put("name", playlistName);

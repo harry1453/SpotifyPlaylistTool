@@ -5,9 +5,6 @@ import java.util.List;
 
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
 
-/**
- * Created by Reiss on 10/07/2017.
- */
 
 public class MyPlaylistsStore {
 

@@ -16,7 +16,7 @@ import kaaes.spotify.webapi.android.models.PlaylistSimple;
 public class PlaylistSearchPresenter implements PlaylistSearch.ActionListener {
 
     private static final String TAG = PlaylistSearchPresenter.class.getSimpleName();
-    public static final int PAGE_SIZE = 20;
+    private static final int PAGE_SIZE = 20;
 
     private final Context mContext;
     private final PlaylistSearch.View mView;

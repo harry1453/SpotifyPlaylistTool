@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.reissgrvs.spotifyplaylisttool.Activities.MainActivity;
 import com.reissgrvs.spotifyplaylisttool.R;
 import com.reissgrvs.spotifyplaylisttool.Util.MultiPlaylistStore;
 import com.squareup.picasso.Picasso;
@@ -29,14 +28,14 @@ public class PlaylistResultsAdapter extends RecyclerView.Adapter<PlaylistResults
     private final ItemSelectedListener mListener;
     private PlaylistFilter mFilter;
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public final TextView title;
-        public final TextView subtitle;
-        public final TextView multi;
-        public final ImageView image;
+        final TextView title;
+        final TextView subtitle;
+        final TextView multi;
+        final ImageView image;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.entity_title);
             subtitle = (TextView) itemView.findViewById(R.id.entity_subtitle);
@@ -66,7 +65,7 @@ public class PlaylistResultsAdapter extends RecyclerView.Adapter<PlaylistResults
         mFilter.filter(constraint);
     }
 
-    public void setFilteredData(List<PlaylistSimple> filteredData) {
+    void setFilteredData(List<PlaylistSimple> filteredData) {
         mFilteredItems = filteredData;
         notifyDataSetChanged();
     }
@@ -90,7 +89,7 @@ public class PlaylistResultsAdapter extends RecyclerView.Adapter<PlaylistResults
         holder.title.setText(item.name);
         UserPublic holdersub = item.owner;
         if(MultiPlaylistStore.isMulti(item.id)){
-            holder.multi.setText("MULTI");
+            holder.multi.setText(R.string.multi_indicator);
             Log.d("PlaylistResultsAdapter", item.name + ": Multi " );
         }
         else
@@ -98,7 +97,7 @@ public class PlaylistResultsAdapter extends RecyclerView.Adapter<PlaylistResults
             holder.multi.setText("");
             Log.d("PlaylistResultsAdapter", item.name + ": Not Multi " );
         }
-        holder.subtitle.setText(holdersub.id.toString());
+        holder.subtitle.setText(holdersub.id);
         Image image = null;
         try {
             image = item.images.get(0); //album.images.get(0);
@@ -112,9 +111,7 @@ public class PlaylistResultsAdapter extends RecyclerView.Adapter<PlaylistResults
             Picasso.with(mContext).load(image.url).into(holder.image);
             Log.d("image url", image.url);
         }
-        else{
 
-        }
     }
 
     @Override

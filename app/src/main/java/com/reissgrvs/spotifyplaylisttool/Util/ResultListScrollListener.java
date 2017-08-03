@@ -2,11 +2,8 @@ package com.reissgrvs.spotifyplaylisttool.Util;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 public abstract class ResultListScrollListener extends RecyclerView.OnScrollListener {
-
-    private static final String TAG = ResultListScrollListener.class.getSimpleName();
 
     private final LinearLayoutManager mLayoutManager;
 

@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.reissgrvs.spotifyplaylisttool.Activities.PlaylistActivity;
 import com.reissgrvs.spotifyplaylisttool.Helper.OnStartDragListener;
 import com.reissgrvs.spotifyplaylisttool.Helper.SimpleItemTouchHelperCallback;
 import com.reissgrvs.spotifyplaylisttool.R;
@@ -38,8 +39,7 @@ public class SongListFragment extends Fragment implements OnStartDragListener {
     private String mUserID;
     final SongListAdapter adapter;
 
-    private final String PLAYLIST_ID =  "playlistID";
-    private final String USER_ID =  "userID";
+
 
     public SongListFragment() {
         adapter = new SongListAdapter(this, this);
@@ -48,10 +48,9 @@ public class SongListFragment extends Fragment implements OnStartDragListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mPlaylistID = getArguments().getString(PLAYLIST_ID);
-        mUserID = getArguments().getString(USER_ID);
-        RecyclerView recyclerView = new RecyclerView(container.getContext());
-        return recyclerView;
+        mPlaylistID = getArguments().getString(PlaylistActivity.PLAYLIST_ID);
+        mUserID = getArguments().getString(PlaylistActivity.USER_ID);
+        return new RecyclerView(container.getContext());
     }
 
     @Override

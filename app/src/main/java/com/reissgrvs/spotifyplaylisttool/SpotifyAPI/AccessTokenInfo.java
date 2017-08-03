@@ -3,16 +3,13 @@ package com.reissgrvs.spotifyplaylisttool.SpotifyAPI;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by Reiss on 15/07/2017.
- */
 
 public class AccessTokenInfo implements Parcelable{
-    public String access_token;
-    public String token_type;
-    public String scope;
-    public String expires_in;
-    public String refresh_token;
+    private String access_token;
+    private String expires_in;
+    private String refresh_token;
+    private String token_type;
+    private String scope;
 
 
     @Override
@@ -29,9 +26,8 @@ public class AccessTokenInfo implements Parcelable{
         dest.writeString(refresh_token);
     }
 
-    public AccessTokenInfo(){}
 
-    protected AccessTokenInfo(Parcel in) {
+    private AccessTokenInfo(Parcel in) {
         this.access_token = in.readString();
         this.token_type = in.readString();
         this.scope = in.readString();
@@ -50,4 +46,16 @@ public class AccessTokenInfo implements Parcelable{
             return new AccessTokenInfo[size];
         }
     };
+
+    String getRefreshToken() {
+        return refresh_token;
+    }
+
+    String getExpiry() {
+        return expires_in;
+    }
+
+    String getAccessToken() {
+        return access_token;
+    }
 }

@@ -16,9 +16,6 @@
 
 package com.reissgrvs.spotifyplaylisttool.Helper;
 
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-
 
 public interface ItemTouchHelperAdapter {
 

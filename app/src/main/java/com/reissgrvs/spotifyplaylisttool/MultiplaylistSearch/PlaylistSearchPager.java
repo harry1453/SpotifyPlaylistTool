@@ -11,30 +11,30 @@ import kaaes.spotify.webapi.android.models.PlaylistSimple;
 import kaaes.spotify.webapi.android.models.PlaylistsPager;
 import retrofit.client.Response;
 
-public class PlaylistSearchPager {
+class PlaylistSearchPager {
 
     private final SpotifyService mSpotifyApi;
     private int mCurrentOffset;
     private int mPageSize;
     private String mCurrentQuery;
 
-    public interface CompleteListener {
+    interface CompleteListener {
         void onComplete(List<PlaylistSimple> items);
         void onError(Throwable error);
     }
 
-    public PlaylistSearchPager(SpotifyService spotifyApi) {
+    PlaylistSearchPager(SpotifyService spotifyApi) {
         mSpotifyApi = spotifyApi;
     }
 
-    public void getFirstPage(String query, int pageSize, CompleteListener listener) {
+    void getFirstPage(String query, int pageSize, CompleteListener listener) {
         mCurrentOffset = 0;
         mPageSize = pageSize;
         mCurrentQuery = query;
         getData(query, 0, pageSize, listener);
     }
 
-    public void getNextPage(CompleteListener listener) {
+    void getNextPage(CompleteListener listener) {
         mCurrentOffset += mPageSize;
         getData(mCurrentQuery, mCurrentOffset, mPageSize, listener);
     }

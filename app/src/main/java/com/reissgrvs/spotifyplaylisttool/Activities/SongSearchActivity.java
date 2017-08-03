@@ -40,7 +40,7 @@ public class SongSearchActivity extends AppCompatActivity implements SongSearch.
 
     private class ScrollListener extends ResultListScrollListener {
 
-        public ScrollListener(LinearLayoutManager layoutManager) {
+        private ScrollListener(LinearLayoutManager layoutManager) {
             super(layoutManager);
         }
 

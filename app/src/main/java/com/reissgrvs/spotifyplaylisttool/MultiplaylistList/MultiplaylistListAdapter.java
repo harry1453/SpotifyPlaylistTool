@@ -24,7 +24,7 @@ import java.util.List;
 import kaaes.spotify.webapi.android.models.Playlist;
 
 
-public class MultiplaylistListAdapter extends RecyclerView.Adapter<MultiplaylistListAdapter.ItemViewHolder>
+class MultiplaylistListAdapter extends RecyclerView.Adapter<MultiplaylistListAdapter.ItemViewHolder>
         implements ItemTouchHelperAdapter {
 
     private final List<Playlist> mItems = new ArrayList<>();
@@ -34,11 +34,6 @@ public class MultiplaylistListAdapter extends RecyclerView.Adapter<Multiplaylist
     MultiplaylistListAdapter(MultiplaylistListFragment fragment, OnStartDragListener dragStartListener) {
         mDragStartListener = dragStartListener;
         multiplaylistListFragment = fragment;
-    }
-
-    void addPlaylists(List<Playlist> newPlaylists) {
-        mItems.addAll(newPlaylists);
-        notifyDataSetChanged();
     }
 
     void addPlaylist(Playlist playlist, int position) {
@@ -104,8 +99,7 @@ public class MultiplaylistListAdapter extends RecyclerView.Adapter<Multiplaylist
     }
 
 
-
-    public class ItemViewHolder extends RecyclerView.ViewHolder implements
+    class ItemViewHolder extends RecyclerView.ViewHolder implements
             ItemTouchHelperViewHolder{
 
         final TextView titleView;

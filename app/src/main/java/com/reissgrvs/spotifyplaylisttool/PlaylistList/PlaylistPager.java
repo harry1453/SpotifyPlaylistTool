@@ -1,18 +1,11 @@
 package com.reissgrvs.spotifyplaylisttool.PlaylistList;
 
 import android.content.Context;
-import android.media.session.MediaSession;
-import android.util.Log;
 
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.SpotifyAPIManager;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore;
 import com.reissgrvs.spotifyplaylisttool.Util.MyPlaylistsStore;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,30 +18,30 @@ import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
 import retrofit.client.Response;
 
-public class PlaylistPager {
+class PlaylistPager {
 
     private final SpotifyService mSpotifyService;
     private int mCurrentOffset;
     private int mPageSize;
     private Context mContext;
 
-    public interface CompleteListener {
+    interface CompleteListener {
         void onComplete(List<PlaylistSimple> items);
         void onError(Throwable error);
     }
 
-    public PlaylistPager(Context context) {
+    PlaylistPager(Context context) {
         mContext = context;
         mSpotifyService = SpotifyAPIManager.getService();
     }
 
-    public void getFirstPage( int pageSize, CompleteListener listener) {
+    void getFirstPage( int pageSize, CompleteListener listener) {
         mCurrentOffset = 0;
         mPageSize = pageSize;
         getData( 0, pageSize, listener);
     }
 
-    public void getNextPage(CompleteListener listener) {
+    void getNextPage(CompleteListener listener) {
         mCurrentOffset += mPageSize;
         getData( mCurrentOffset, mPageSize, listener);
     }
