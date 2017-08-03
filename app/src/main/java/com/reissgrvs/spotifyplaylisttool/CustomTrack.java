@@ -23,7 +23,6 @@ public class CustomTrack {
         for (int i = 0; i < mTrack.uri.length(); i++) {
             hash = hash*31 + mTrack.uri.charAt(i);
         }
-        Log.d("Amine", "in HashCode for " + mTrack.name + " code is: " + Integer.toString(hash));
         return hash;
     }
 

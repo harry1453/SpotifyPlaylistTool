@@ -45,15 +45,14 @@
                 android:value=".Activities.MainActivity" />
         </activity>
         <activity android:name=".Activities.PlaylistSearchActivity"></activity>
-        <!--<service
-            android:name=".UpdateService.UpdateMultiplaylistService"
+        <service
+            android:name=".UpdateService.UpdateService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
             </intent-filter>
         </service>
 
--->
 
     </application>
 

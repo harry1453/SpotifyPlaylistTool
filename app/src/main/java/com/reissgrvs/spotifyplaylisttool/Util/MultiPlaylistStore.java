@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Created by Reiss on 26/06/2017.
@@ -37,6 +38,10 @@ public class MultiPlaylistStore {
         }
 
     }
+
+    static public Set<String> getPlaylistIDs(){
+        return multiplaylistStore.keySet();
+    };
 
 
     static public void saveMultiPlaylistFile(Context mContext){

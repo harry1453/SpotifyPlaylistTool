@@ -15,10 +15,12 @@ import android.view.View;
 
 
 import com.reissgrvs.spotifyplaylisttool.Dialogs.PlaylistAddDialog;
+import com.reissgrvs.spotifyplaylisttool.PlaylistUpdateUtils.MultiplaylistUtils;
 import com.reissgrvs.spotifyplaylisttool.R;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore;
 import com.reissgrvs.spotifyplaylisttool.PlaylistList.PlaylistPresenter;
 import com.reissgrvs.spotifyplaylisttool.PlaylistList.PlaylistResultsAdapter;
+import com.reissgrvs.spotifyplaylisttool.UpdateService.UpdateScheduler;
 import com.reissgrvs.spotifyplaylisttool.Util.MultiPlaylistStore;
 import com.reissgrvs.spotifyplaylisttool.Util.ResultListScrollListener;
 import com.reissgrvs.spotifyplaylisttool.PlaylistList.UserPlaylist;
@@ -59,41 +61,9 @@ public class MainActivity extends AppCompatActivity implements UserPlaylist.View
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setElevation(24);
+
         String token = TokenStore.getAuthToken(this);
 
-
-  /*      AsyncTask mBackgroundTask = new AsyncTask() {
-            @Override
-            protected Object doInBackground(Object[] params) {
-                Log.d("UpdateTesting", "doInBackground");
-                //TODO: Update all multiplaylists
-                TokenStore.refreshAuthToken(getBaseContext());
-                MultiplaylistUtils.updateAllMultiplaylists(getBaseContext());
-                return true;
-            }
-
-            @Override
-            protected void onPostExecute(Object o) {
-                Log.d("UpdateTesting", "onPostExecute for foreground task");
-            }
-        };
-
-        try {
-            mBackgroundTask.execute().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-*/
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_add_playlist);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PlaylistAddDialog addDialog = new PlaylistAddDialog(MainActivity.this);
-                addDialog.show();
-            }
-        });
 
         mActionListener = new PlaylistPresenter(this, this);
         mActionListener.init(token);
@@ -101,6 +71,10 @@ public class MainActivity extends AppCompatActivity implements UserPlaylist.View
         Log.d("UserID", "UserID:" +TokenStore.getUserId(this));
         //TODO: Should make these files userID specific
         MultiPlaylistStore.loadMultiPlaylistFile(this);
+
+        MultiplaylistUtils.updateAllMultiplaylists(this, TokenStore.getUserId(this));
+
+        UpdateScheduler.scheduleMultiplaylistUpdate(this);
 
         // Setup search results list
         mAdapter = new PlaylistResultsAdapter(this, new PlaylistResultsAdapter.ItemSelectedListener() {
@@ -110,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements UserPlaylist.View
             }
         });
 
-
+        //View setup
         RecyclerView resultsList = (RecyclerView) findViewById(R.id.search_results);
         resultsList.setHasFixedSize(true);
         resultsList.setLayoutManager(mLayoutManager);
@@ -118,6 +92,14 @@ public class MainActivity extends AppCompatActivity implements UserPlaylist.View
         resultsList.addOnScrollListener(mScrollListener);
         mActionListener.refresh();
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_add_playlist);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PlaylistAddDialog addDialog = new PlaylistAddDialog(MainActivity.this);
+                addDialog.show();
+            }
+        });
 
 
     }
