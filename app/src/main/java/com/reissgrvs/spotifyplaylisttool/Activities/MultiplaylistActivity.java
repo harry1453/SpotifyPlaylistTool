@@ -25,6 +25,7 @@ import java.util.Map;
 import kaaes.spotify.webapi.android.SpotifyCallback;
 import kaaes.spotify.webapi.android.SpotifyError;
 import kaaes.spotify.webapi.android.models.Pager;
+import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.Track;
@@ -83,7 +84,12 @@ public class MultiplaylistActivity extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 Intent intent = PlaylistSearchActivity.createIntent(getBaseContext());
-                intent.putParcelableArrayListExtra("playlists", fragment.getPlaylists());
+                ArrayList<String> playlistIDs = new ArrayList<String>();
+                for (Playlist playlist : fragment.getPlaylists())
+                {
+                    playlistIDs.add(playlist.id);
+                }
+                intent.putStringArrayListExtra("playlists", playlistIDs);
                 startActivityForResult(intent, 1);
             }
         });

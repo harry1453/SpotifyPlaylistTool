@@ -32,7 +32,6 @@ public class MultiPlaylistStore {
             multiplaylistStore = (HashMap)objectInputStream.readObject();
         }
         catch(ClassNotFoundException | IOException | ClassCastException e) {
-            //TODO: Maybe a more elegant way of doing this
             multiplaylistStore = new HashMap<>();
             e.printStackTrace();
         }

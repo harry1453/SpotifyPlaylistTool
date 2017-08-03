@@ -23,6 +23,7 @@ import com.reissgrvs.spotifyplaylisttool.Util.ResultListScrollListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
 
 public class PlaylistSearchActivity extends AppCompatActivity implements PlaylistSearch.View {
@@ -31,7 +32,7 @@ public class PlaylistSearchActivity extends AppCompatActivity implements Playlis
     private static final String KEY_CURRENT_QUERY = "CURRENT_QUERY";
 
     private PlaylistSearch.ActionListener mActionListener;
-    private List<PlaylistSimple> mReservedPlaylists = new ArrayList<>();
+    private List<String> mReservedPlaylists = new ArrayList<>();
     private List<PlaylistSimple> mAddedPlaylists = new ArrayList<>();
 
     private LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -43,9 +44,15 @@ public class PlaylistSearchActivity extends AppCompatActivity implements Playlis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_search);
-
-       // mReservedPlaylists = getIntent().getParcelableArrayListExtra("playlistTracks");
-
+        Intent intent = getIntent();
+        intent.toString();
+        if(getIntent().hasExtra("playlists")) {
+            Log.d("PlaylistSearchActivity", "Has extra");
+            mReservedPlaylists = getIntent().getStringArrayListExtra("playlists");
+        }
+        else{
+            Log.d("PlaylistSearchActivity", "Doesnt have extra");
+        }
         String token = TokenStore.getAuthToken(getBaseContext());
         Log.d("token", token);
 
@@ -94,15 +101,13 @@ public class PlaylistSearchActivity extends AppCompatActivity implements Playlis
                     public boolean isItemReserved(PlaylistSimple item){
 
                         boolean value = false;
-                        //TODO: Make this work
-                        /*if (item != null && !mReservedPlaylists.isEmpty()) {
-                            for (PlaylistSimple cur : mReservedPlaylists) {
-                                if (cur.id.equals(item.id)) {
+                        if (item != null && !mReservedPlaylists.isEmpty()) {
+                            for (String cur : mReservedPlaylists) {
+                                if (cur.equals(item.id)) {
                                     value = true;
-
                                 }
                             }
-                        }*/
+                        }
                         return value;
                     }
                     @Override
