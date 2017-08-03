@@ -68,7 +68,7 @@ public class PlaylistPager {
 
                 if(!items.isEmpty()) {
 
-                    MyPlaylistsStore.myPlaylists.addAll(items);
+                    MyPlaylistsStore.setMyPlaylists(items);
                 }
                 String userID = TokenStore.getUserId(mContext);
                 for (PlaylistSimple item : items){

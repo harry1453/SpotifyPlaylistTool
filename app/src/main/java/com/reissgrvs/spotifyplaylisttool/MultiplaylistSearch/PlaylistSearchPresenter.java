@@ -43,7 +43,7 @@ public class PlaylistSearchPresenter implements PlaylistSearch.ActionListener {
 
         mPlaylistSearchPager = new PlaylistSearchPager(spotifyApi.getService());
 
-        mUserPlaylists = MyPlaylistsStore.myPlaylists;
+        mUserPlaylists = MyPlaylistsStore.getMyPlaylists();
 
     }
 

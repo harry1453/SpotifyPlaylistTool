@@ -9,6 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.reissgrvs.spotifyplaylisttool.MultiplaylistList.MultiplaylistListFragment;
 import com.reissgrvs.spotifyplaylisttool.R;
@@ -44,6 +47,7 @@ public class MultiplaylistActivity extends AppCompatActivity  {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_multiplaylist);
         setSupportActionBar(toolbar);
 
+
         Intent ownerIntent = getIntent();
 
         if (ownerIntent.hasExtra(Intent.EXTRA_TEXT)) {
@@ -74,6 +78,7 @@ public class MultiplaylistActivity extends AppCompatActivity  {
         }
 
         fab = (FloatingActionButton) findViewById(R.id.fab_add_playlist);
+        fab.hide();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,6 +111,14 @@ public class MultiplaylistActivity extends AppCompatActivity  {
             }
 
         }
+    }
+
+    public void turnLoadingOff(){
+        ProgressBar loading = (ProgressBar)findViewById(R.id.progress_bar_multiplaylist);
+        loading.setVisibility(View.GONE);
+        fab.show();
+        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.lin_layout_multiplaylist);
+        linearLayout.setVisibility(View.VISIBLE);
     }
 
 }

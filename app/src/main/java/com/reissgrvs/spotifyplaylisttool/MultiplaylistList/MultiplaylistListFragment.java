@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.reissgrvs.spotifyplaylisttool.Activities.MultiplaylistActivity;
 import com.reissgrvs.spotifyplaylisttool.Helper.OnStartDragListener;
 import com.reissgrvs.spotifyplaylisttool.Helper.SimpleItemTouchHelperCallback;
 import com.reissgrvs.spotifyplaylisttool.Player.Player;
@@ -39,7 +40,7 @@ public class MultiplaylistListFragment extends Fragment implements OnStartDragLi
     final MultiplaylistListAdapter adapter;
     private Context mContext;
     private Player mPlayer;
-
+    private RecyclerView recyclerView;
 
     public MultiplaylistListFragment() {
         adapter = new MultiplaylistListAdapter(this, this);
@@ -60,11 +61,11 @@ public class MultiplaylistListFragment extends Fragment implements OnStartDragLi
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //Recyclerview setup
-        RecyclerView recyclerView = (RecyclerView) view;
+        recyclerView = (RecyclerView) view;
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        recyclerView.setVisibility(View.GONE);
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
@@ -93,6 +94,8 @@ public class MultiplaylistListFragment extends Fragment implements OnStartDragLi
                 adapter.addPlaylist(playlist);
                 if (last){
                     MultiplaylistUtils.executeSyncPlaylistTask(mUserID, mPlaylistID, adapter.getPlaylists());
+                    recyclerView.setVisibility(View.VISIBLE);
+                    ((MultiplaylistActivity)getActivity()).turnLoadingOff();
                 }
             }
         });

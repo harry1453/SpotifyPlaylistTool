@@ -10,8 +10,16 @@ import kaaes.spotify.webapi.android.models.PlaylistSimple;
  */
 
 public class MyPlaylistsStore {
-    //TODO: Fucking get rid of this you moron
-    static public  List<PlaylistSimple> myPlaylists = new ArrayList<>();
+
+    static private List<PlaylistSimple> myPlaylists = new ArrayList<>();
+
+    static public List<PlaylistSimple> getMyPlaylists(){
+        return new ArrayList<>(myPlaylists);
+    }
+
+    static public void setMyPlaylists(List<PlaylistSimple> playlists ){
+        myPlaylists = new ArrayList<>(playlists);
+    }
 }
 
 
