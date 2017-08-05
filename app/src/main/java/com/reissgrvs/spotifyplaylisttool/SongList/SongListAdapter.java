@@ -4,6 +4,7 @@ package com.reissgrvs.spotifyplaylisttool.SongList;
 import android.graphics.Color;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.reissgrvs.spotifyplaylisttool.Helper.ItemTouchHelperAdapter;
 import com.reissgrvs.spotifyplaylisttool.Helper.ItemTouchHelperViewHolder;
 import com.reissgrvs.spotifyplaylisttool.Helper.OnStartDragListener;
+import com.reissgrvs.spotifyplaylisttool.PlaylistUpdateUtils.PlaylistUpdateUtils;
 import com.reissgrvs.spotifyplaylisttool.R;
 
 import java.util.ArrayList;
@@ -30,10 +32,18 @@ class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ItemViewHolde
     private final List<PlaylistTrack> mItems = new ArrayList<>();
     private final OnStartDragListener mDragStartListener;
     private final SongListFragment songListFragment;
+    private String mPlaylistID;
+    private String mUserID;
 
     SongListAdapter(SongListFragment fragment, OnStartDragListener dragStartListener) {
         mDragStartListener = dragStartListener;
         songListFragment = fragment;
+
+    }
+
+    void init(String playlistID, String userID){
+        mPlaylistID = playlistID;
+        mUserID = userID;
     }
 
     void addTracks(List<PlaylistTrack> newTracks) {
@@ -89,6 +99,9 @@ class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ItemViewHolde
     public boolean onItemMove(int fromPosition, int toPosition) {
         Collections.swap(mItems, fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
+
+
+
         return true;
     }
 
@@ -104,6 +117,7 @@ class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ItemViewHolde
         final TextView titleView;
         final TextView artistView;
         final ImageView handleView;
+        int fromPosition;
 
         ItemViewHolder(View itemView) {
             super(itemView);
@@ -116,11 +130,22 @@ class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ItemViewHolde
         @Override
         public void onItemSelected() {
             itemView.setBackgroundColor(Color.DKGRAY);
+            fromPosition = getAdapterPosition();
+            Log.d("ItemMove", Integer.toString(fromPosition));
         }
 
         @Override
         public void onItemClear() {
             itemView.setBackgroundColor(0);
+            Log.d("ItemMove", Integer.toString(fromPosition) + " to " + Integer.toString(getAdapterPosition()));
+            int toPosition = getAdapterPosition();
+            if (toPosition>fromPosition) {
+                PlaylistUpdateUtils.moveTrackTask(mUserID, mPlaylistID, fromPosition, getAdapterPosition() + 1);
+            }
+            else if(toPosition<fromPosition)
+            {
+                PlaylistUpdateUtils.moveTrackTask(mUserID, mPlaylistID, fromPosition, getAdapterPosition());
+            }
         }
 
 

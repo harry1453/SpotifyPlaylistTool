@@ -25,10 +25,7 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //UpdateUtils.scheduleMultiplaylistUpdate(this);
-
         String refreshToken = TokenStore.getRefreshToken(this);
-        Log.d("WTF", "token: " + refreshToken);
         if (refreshToken == null) {
             setContentView(R.layout.activity_login);
         } else {

@@ -11,15 +11,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Activities.LoginActivity">
 
-    <ImageButton
+    <Button
         android:id="@+id/button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:adjustViewBounds="true"
-        android:cropToPadding="false"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:onClick="onLoginButtonClicked"
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/log_in_mobile" />
+        android:text="Log In to Spotify" />
 </RelativeLayout>

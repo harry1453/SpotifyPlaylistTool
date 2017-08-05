@@ -5,7 +5,7 @@ import retrofit.http.FormUrlEncoded;
 import retrofit.http.POST;
 
 
-interface SpotifyAuthService {
+public interface SpotifyAuthService {
 
     @FormUrlEncoded
     @POST("/api/token")

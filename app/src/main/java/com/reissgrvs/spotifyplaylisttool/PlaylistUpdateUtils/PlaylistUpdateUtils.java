@@ -1,8 +1,13 @@
 package com.reissgrvs.spotifyplaylisttool.PlaylistUpdateUtils;
 
 
+import android.os.AsyncTask;
+
 import com.reissgrvs.spotifyplaylisttool.CustomTrack;
+import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.AccessTokenInfo;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.SpotifyAPIManager;
+import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore;
+import com.reissgrvs.spotifyplaylisttool.Util.MultiPlaylistStore;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,8 +19,11 @@ import java.util.Set;
 
 
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
+import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.TrackToRemove;
 import kaaes.spotify.webapi.android.models.TracksToRemove;
+
+import static com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore.getRefreshToken;
 
 
 public class PlaylistUpdateUtils {
@@ -76,6 +84,43 @@ public class PlaylistUpdateUtils {
         }
     }
 
+    public static void removeTrackTask(final String userID, final String playlistID, final Track oldTrack){
+        new AsyncTask<Void, Void, Void>() {
+            protected Void doInBackground(Void... unused) {
+
+                if(oldTrack != null) {
+                    CustomTrack remove = new CustomTrack(oldTrack);
+                    ArrayList<CustomTrack> removeList = new ArrayList<>();
+                    removeList.add(remove);
+                    TracksToRemove tracksToRemove = packageTracksToRemove(removeList);
+                    SpotifyAPIManager.getService().removeTracksFromPlaylist(userID, playlistID, tracksToRemove);
+                }
+                return null;
+            }
+        }.execute();
+
+    }
+
+    public static void addTrackTask(final String userID, final String playlistID, final Track track, final Integer position){
+        new AsyncTask<Void, Void, Void>() {
+            protected Void doInBackground(Void... unused) {
+
+                if (track != null) {
+
+                    Map<String, Object> body = new HashMap<>();
+                    Map<String, Object> query = new HashMap<>();
+
+                    query.put("uris", track.uri);
+                    query.put("position", position.toString());
+
+                    SpotifyAPIManager.getService().addTracksToPlaylist(userID, playlistID, query, body);
+                }
+                return null;
+            }
+        }.execute();
+
+    }
+
     private static TracksToRemove packageTracksToRemove(Collection<CustomTrack> tracksToRemove){
         TracksToRemove packagedTracks = new TracksToRemove();
         packagedTracks.tracks = new ArrayList<>();
@@ -87,5 +132,20 @@ public class PlaylistUpdateUtils {
         }
 
         return packagedTracks;
+    }
+
+    public static void moveTrackTask(final String userID, final String playlistID, final int start, final int end){
+        new AsyncTask<Void, Void, Void>() {
+            protected Void doInBackground(Void... unused) {
+
+                Map<String, Object> body = new HashMap<>();
+                body.put("range_start", start);
+                body.put("insert_before", end);
+
+                SpotifyAPIManager.getService().reorderPlaylistTracks(userID, playlistID, body);
+
+                return null;
+            }
+        }.execute();
     }
 }

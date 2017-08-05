@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import com.reissgrvs.spotifyplaylisttool.Activities.PlaylistActivity;
 import com.reissgrvs.spotifyplaylisttool.Helper.OnStartDragListener;
 import com.reissgrvs.spotifyplaylisttool.Helper.SimpleItemTouchHelperCallback;
+import com.reissgrvs.spotifyplaylisttool.PlaylistUpdateUtils.PlaylistUpdateUtils;
 import com.reissgrvs.spotifyplaylisttool.R;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.SpotifyAPIManager;
 
@@ -50,6 +51,7 @@ public class SongListFragment extends Fragment implements OnStartDragListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mPlaylistID = getArguments().getString(PlaylistActivity.PLAYLIST_ID);
         mUserID = getArguments().getString(PlaylistActivity.USER_ID);
+        adapter.init(mPlaylistID,mUserID);
         return new RecyclerView(container.getContext());
     }
 
@@ -82,6 +84,7 @@ public class SongListFragment extends Fragment implements OnStartDragListener {
     }
 
     public void onItemDismissed(PlaylistTrack removedTrack, int position){
+        PlaylistUpdateUtils.removeTrackTask(mUserID,mPlaylistID, removedTrack.track);
         Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.content_playlist), "Track removed" , Snackbar.LENGTH_SHORT );
         snackbar.setAction("UNDO", new UndoListener(removedTrack,position));
         snackbar.show();
@@ -100,6 +103,7 @@ public class SongListFragment extends Fragment implements OnStartDragListener {
         @Override
         public void onClick(View v) {
             adapter.addTrack(removedTrack,position);
+            PlaylistUpdateUtils.addTrackTask(mUserID,mPlaylistID,removedTrack.track,position);
         }
     }
 
