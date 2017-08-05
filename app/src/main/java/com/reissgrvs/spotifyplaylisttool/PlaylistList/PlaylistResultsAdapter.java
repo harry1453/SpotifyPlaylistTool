@@ -97,7 +97,7 @@ public class PlaylistResultsAdapter extends RecyclerView.Adapter<PlaylistResults
             holder.multi.setText("");
             Log.d("PlaylistResultsAdapter", item.name + ": Not Multi " );
         }
-        holder.subtitle.setText(holdersub.id);
+        holder.subtitle.setText("username");//TODO:holdersub.id);
         Image image = null;
         try {
             image = item.images.get(0); //album.images.get(0);

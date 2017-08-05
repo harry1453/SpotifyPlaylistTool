@@ -40,21 +40,23 @@ class PlaylistSearchPager {
     }
 
     private void getData(String query, int offset, final int limit, final CompleteListener listener) {
+        if(query != null && !query.isEmpty()) {
 
-        Map<String, Object> options = new HashMap<>();
-        options.put(SpotifyService.OFFSET, offset);
-        options.put(SpotifyService.LIMIT, limit);
+            Map<String, Object> options = new HashMap<>();
+            options.put(SpotifyService.OFFSET, offset);
+            options.put(SpotifyService.LIMIT, limit);
 
-        mSpotifyApi.searchPlaylists(query, options, new SpotifyCallback<PlaylistsPager>() {
-            @Override
-            public void success(PlaylistsPager playlistsPager, Response response) {
-                listener.onComplete(playlistsPager.playlists.items);
-            }
+            mSpotifyApi.searchPlaylists(query, options, new SpotifyCallback<PlaylistsPager>() {
+                @Override
+                public void success(PlaylistsPager playlistsPager, Response response) {
+                    listener.onComplete(playlistsPager.playlists.items);
+                }
 
-            @Override
-            public void failure(SpotifyError error) {
-                listener.onError(error);
-            }
-        });
+                @Override
+                public void failure(SpotifyError error) {
+                    listener.onError(error);
+                }
+            });
+        }
     }
 }

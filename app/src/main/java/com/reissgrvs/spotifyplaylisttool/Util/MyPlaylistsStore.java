@@ -15,7 +15,11 @@ public class MyPlaylistsStore {
     }
 
     static public void setMyPlaylists(List<PlaylistSimple> playlists ){
-        myPlaylists = new ArrayList<>(playlists);
+        myPlaylists.addAll(playlists);
+    }
+
+    static public void clearMyPlaylists(){
+        myPlaylists = new ArrayList<>();
     }
 }
 

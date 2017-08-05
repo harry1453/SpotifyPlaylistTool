@@ -67,10 +67,13 @@ public class MultiplaylistListFragment extends Fragment implements OnStartDragLi
 
         if(!mChildPlaylists.isEmpty()) {
             String lastItem = mChildPlaylists.get(mChildPlaylists.size() - 1);
-            Log.d("FragmentMulti", lastItem);
             for (String childId : mChildPlaylists) {
                 addPlaylistFromId(childId, lastItem.equals(childId));
             }
+        }
+        else{
+            recyclerView.setVisibility(View.VISIBLE);
+            ((MultiplaylistActivity)getActivity()).turnLoadingOff();
         }
 
     }

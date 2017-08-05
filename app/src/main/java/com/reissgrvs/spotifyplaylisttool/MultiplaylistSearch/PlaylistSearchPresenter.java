@@ -44,6 +44,7 @@ public class PlaylistSearchPresenter implements PlaylistSearch.ActionListener {
         mPlaylistSearchPager = new PlaylistSearchPager(spotifyApi.getService());
 
         mUserPlaylists = MyPlaylistsStore.getMyPlaylists();
+        mView.addData(mUserPlaylists);
 
     }
 
@@ -51,7 +52,6 @@ public class PlaylistSearchPresenter implements PlaylistSearch.ActionListener {
     @Override
     public void search(@Nullable String searchQuery) {
         if (searchQuery != null && !searchQuery.isEmpty() && !searchQuery.equals(mCurrentQuery)) {
-            logMessage("query text submit " + searchQuery);
             mCurrentQuery = searchQuery;
             mView.reset();
             List<PlaylistSimple> queriedUserPlaylists = new ArrayList<>();
@@ -77,6 +77,10 @@ public class PlaylistSearchPresenter implements PlaylistSearch.ActionListener {
                 }
             };
             mPlaylistSearchPager.getFirstPage(searchQuery, PAGE_SIZE, mSearchListener);
+        }
+        if (searchQuery.isEmpty()){
+            mView.reset();
+            mView.addData(mUserPlaylists);
         }
     }
 

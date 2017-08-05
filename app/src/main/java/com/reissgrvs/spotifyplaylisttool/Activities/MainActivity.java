@@ -22,6 +22,7 @@ import com.reissgrvs.spotifyplaylisttool.PlaylistList.PlaylistPresenter;
 import com.reissgrvs.spotifyplaylisttool.PlaylistList.PlaylistResultsAdapter;
 import com.reissgrvs.spotifyplaylisttool.UpdateService.UpdateScheduler;
 import com.reissgrvs.spotifyplaylisttool.Util.MultiPlaylistStore;
+import com.reissgrvs.spotifyplaylisttool.Util.MyPlaylistsStore;
 import com.reissgrvs.spotifyplaylisttool.Util.ResultListScrollListener;
 import com.reissgrvs.spotifyplaylisttool.PlaylistList.UserPlaylist;
 
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements UserPlaylist.View
         getSupportActionBar().setElevation(24);
 
         String token = TokenStore.getAuthToken(this);
-
+        MyPlaylistsStore.clearMyPlaylists();
 
         mActionListener = new PlaylistPresenter(this, this);
         mActionListener.init(token);
@@ -133,6 +134,8 @@ public class MainActivity extends AppCompatActivity implements UserPlaylist.View
                 Intent returnToLogIn = new Intent(this, LoginActivity.class);
                 startActivity(returnToLogIn);
                 return true;
+            case R.id.action_refresh:
+                recreate();
         }
 
         return super.onOptionsItemSelected(item);

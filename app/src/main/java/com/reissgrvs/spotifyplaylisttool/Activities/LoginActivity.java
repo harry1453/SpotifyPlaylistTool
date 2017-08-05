@@ -24,9 +24,9 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         String refreshToken = TokenStore.getRefreshToken(this);
         if (refreshToken == null) {
+            onLoginButtonClicked(getCurrentFocus());
             setContentView(R.layout.activity_login);
         } else {
             startMainActivity();

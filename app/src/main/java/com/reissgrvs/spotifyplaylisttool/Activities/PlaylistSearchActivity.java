@@ -54,8 +54,7 @@ public class PlaylistSearchActivity extends AppCompatActivity implements Playlis
         String token = TokenStore.getAuthToken(getBaseContext());
         Log.d("token", token);
 
-        mActionListener = new PlaylistSearchPresenter(this, this);
-        mActionListener.init(token);
+
 
         // Setup search field
         final SearchView searchView = (SearchView) findViewById(R.id.playlist_search_view);
@@ -69,6 +68,7 @@ public class PlaylistSearchActivity extends AppCompatActivity implements Playlis
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                mActionListener.search(newText);
                 return false;
             }
         });
@@ -120,6 +120,9 @@ public class PlaylistSearchActivity extends AppCompatActivity implements Playlis
                     }
                 }
         );
+
+        mActionListener = new PlaylistSearchPresenter(this, this);
+        mActionListener.init(token);
 
         RecyclerView resultsList = (RecyclerView) findViewById(R.id.playlist_search_results);
         resultsList.setHasFixedSize(true);
