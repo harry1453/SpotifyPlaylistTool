@@ -13,7 +13,7 @@ import com.reissgrvs.spotifyplaylisttool.Activities.MultiplaylistActivity;
 import com.reissgrvs.spotifyplaylisttool.Player.PlayerService;
 import com.reissgrvs.spotifyplaylisttool.Activities.PlaylistActivity;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.SpotifyAPIManager;
-import com.reissgrvs.spotifyplaylisttool.Util.MultiPlaylistStore;
+import com.reissgrvs.spotifyplaylisttool.Util.MultiplaylistStore;
 
 import java.util.List;
 
@@ -94,13 +94,13 @@ public class PlaylistPresenter implements UserPlaylist.ActionListener {
 
     public void selectPlaylist(PlaylistSimple item) {
 
-        if( MultiPlaylistStore.isMulti(item.id))
+        if( MultiplaylistStore.isMulti(item.id))
         {
             Intent startMultiplaylistActivity = new Intent(mContext, MultiplaylistActivity.class);
             startMultiplaylistActivity.putExtra(Intent.EXTRA_SUBJECT, item.id);
             startMultiplaylistActivity.putExtra(Intent.EXTRA_TEXT, item.name);
             startMultiplaylistActivity.putExtra(Intent.EXTRA_USER, item.owner.id);
-            startMultiplaylistActivity.putStringArrayListExtra("childPlaylists",MultiPlaylistStore.getMulti(item.id) );
+            startMultiplaylistActivity.putStringArrayListExtra("childPlaylists", MultiplaylistStore.getMulti(item.id) );
             mContext.startActivity(startMultiplaylistActivity);
         }
         else

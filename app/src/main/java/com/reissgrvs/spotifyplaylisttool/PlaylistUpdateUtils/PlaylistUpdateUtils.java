@@ -4,10 +4,7 @@ package com.reissgrvs.spotifyplaylisttool.PlaylistUpdateUtils;
 import android.os.AsyncTask;
 
 import com.reissgrvs.spotifyplaylisttool.CustomTrack;
-import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.AccessTokenInfo;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.SpotifyAPIManager;
-import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore;
-import com.reissgrvs.spotifyplaylisttool.Util.MultiPlaylistStore;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,8 +19,6 @@ import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.TrackToRemove;
 import kaaes.spotify.webapi.android.models.TracksToRemove;
-
-import static com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore.getRefreshToken;
 
 
 public class PlaylistUpdateUtils {

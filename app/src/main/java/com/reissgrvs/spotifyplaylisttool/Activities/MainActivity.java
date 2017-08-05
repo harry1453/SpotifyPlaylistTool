@@ -21,7 +21,7 @@ import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore;
 import com.reissgrvs.spotifyplaylisttool.PlaylistList.PlaylistPresenter;
 import com.reissgrvs.spotifyplaylisttool.PlaylistList.PlaylistResultsAdapter;
 import com.reissgrvs.spotifyplaylisttool.UpdateService.UpdateScheduler;
-import com.reissgrvs.spotifyplaylisttool.Util.MultiPlaylistStore;
+import com.reissgrvs.spotifyplaylisttool.Util.MultiplaylistStore;
 import com.reissgrvs.spotifyplaylisttool.Util.MyPlaylistsStore;
 import com.reissgrvs.spotifyplaylisttool.Util.ResultListScrollListener;
 import com.reissgrvs.spotifyplaylisttool.PlaylistList.UserPlaylist;
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements UserPlaylist.View
 
         Log.d("UserID", "UserID:" +TokenStore.getUserId(this));
         //TODO: Should make these files userID specific
-        MultiPlaylistStore.loadMultiPlaylistFile(this);
+        MultiplaylistStore.loadMultiPlaylistFile(this);
 
         MultiplaylistUtils.updateAllMultiplaylists(this, TokenStore.getUserId(this));
 
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements UserPlaylist.View
     @Override
     protected void onDestroy() {
         mActionListener.destroy();
-        MultiPlaylistStore.saveMultiPlaylistFile(this);
+        MultiplaylistStore.saveMultiPlaylistFile(this);
         super.onDestroy();
     }
     @Override

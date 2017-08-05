@@ -4,7 +4,7 @@ import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
 import com.reissgrvs.spotifyplaylisttool.PlaylistUpdateUtils.MultiplaylistUtils;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore;
-import com.reissgrvs.spotifyplaylisttool.Util.MultiPlaylistStore;
+import com.reissgrvs.spotifyplaylisttool.Util.MultiplaylistStore;
 
 
 public class UpdateService extends JobService {
@@ -13,7 +13,7 @@ public class UpdateService extends JobService {
     @Override
     public boolean onStartJob(JobParameters job) {
 
-        MultiPlaylistStore.loadMultiPlaylistFile(this);
+        MultiplaylistStore.loadMultiPlaylistFile(this);
         MultiplaylistUtils.updateAllMultiplaylists(this, TokenStore.getUserId(this));
 
         return false;

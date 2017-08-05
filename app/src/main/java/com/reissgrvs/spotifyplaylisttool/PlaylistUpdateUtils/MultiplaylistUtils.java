@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.AccessTokenInfo;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.SpotifyAPIManager;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore;
-import com.reissgrvs.spotifyplaylisttool.Util.MultiPlaylistStore;
+import com.reissgrvs.spotifyplaylisttool.Util.MultiplaylistStore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class MultiplaylistUtils {
     }
 
     private static void syncPlaylist(final String userID, final String playlistID){
-        List<String> childIDs = MultiPlaylistStore.getMulti(playlistID);
+        List<String> childIDs = MultiplaylistStore.getMulti(playlistID);
 
         List<Playlist> childPlaylists = getPlaylistsFromId(childIDs);
 
@@ -93,8 +93,8 @@ public class MultiplaylistUtils {
                 AccessTokenInfo accessTokenInfo = SpotifyAPIManager.getAuthService().refreshAccessToken("refresh_token", getRefreshToken(context));
                 TokenStore.setToken(context, accessTokenInfo);
                 //Get multistore
-                MultiPlaylistStore.loadMultiPlaylistFile(context);
-                Set<String> playlistIDs = MultiPlaylistStore.getPlaylistIDs();
+                MultiplaylistStore.loadMultiPlaylistFile(context);
+                Set<String> playlistIDs = MultiplaylistStore.getPlaylistIDs();
 
                 for(String curPlaylistID : playlistIDs ){
                     executeSyncPlaylistTask(userID, curPlaylistID);

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-public class MultiPlaylistStore {
+public class MultiplaylistStore {
 
     //TODO: Make files user specific
     static private String FILENAME = "multistore.ser";
@@ -50,11 +50,17 @@ public class MultiPlaylistStore {
         multiplaylistStore.put(playlistID, new ArrayList<String>());
     }
 
-    static public void addToMulti(String playlistID, ArrayList<String> childPlaylists, Context mContext)
+    static public void addToMulti(String playlistID, ArrayList<String> childPlaylists, Context context)
     {
-        loadMultiPlaylistFile(mContext);
+        loadMultiPlaylistFile(context);
         multiplaylistStore.put(playlistID,childPlaylists);
-        saveMultiPlaylistFile(mContext);
+        saveMultiPlaylistFile(context);
+    }
+
+    static public  void removeFromMulti(String playlistID, String childPlaylist, Context context){
+        loadMultiPlaylistFile(context);
+        multiplaylistStore.get(playlistID).remove(childPlaylist);
+        saveMultiPlaylistFile(context);
     }
 
     static public ArrayList<String> getMulti(String playlistID){

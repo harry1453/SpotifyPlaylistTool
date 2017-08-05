@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.reissgrvs.spotifyplaylisttool.R;
-import com.reissgrvs.spotifyplaylisttool.Util.MultiPlaylistStore;
+import com.reissgrvs.spotifyplaylisttool.Util.MultiplaylistStore;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -88,7 +88,7 @@ public class PlaylistResultsAdapter extends RecyclerView.Adapter<PlaylistResults
 
         holder.title.setText(item.name);
         UserPublic holdersub = item.owner;
-        if(MultiPlaylistStore.isMulti(item.id)){
+        if(MultiplaylistStore.isMulti(item.id)){
             holder.multi.setText(R.string.multi_indicator);
             Log.d("PlaylistResultsAdapter", item.name + ": Multi " );
         }

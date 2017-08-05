@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 
 import com.reissgrvs.spotifyplaylisttool.MultiplaylistList.MultiplaylistListFragment;
 import com.reissgrvs.spotifyplaylisttool.R;
-import com.reissgrvs.spotifyplaylisttool.Util.MultiPlaylistStore;
+import com.reissgrvs.spotifyplaylisttool.Util.MultiplaylistStore;
 
 import java.util.ArrayList;
 
@@ -98,7 +98,7 @@ public class MultiplaylistActivity extends AppCompatActivity  {
                     }
                 }
 
-                MultiPlaylistStore.addToMulti(playlistID, childPlaylists, this);
+                MultiplaylistStore.addToMulti(playlistID, childPlaylists, this);
                 recreate();
             }
 

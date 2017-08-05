@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import com.reissgrvs.spotifyplaylisttool.Helper.SimpleItemTouchHelperCallback;
 import com.reissgrvs.spotifyplaylisttool.PlaylistUpdateUtils.MultiplaylistUtils;
 import com.reissgrvs.spotifyplaylisttool.R;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.SpotifyAPIManager;
+import com.reissgrvs.spotifyplaylisttool.Util.MultiplaylistStore;
 
 import java.util.ArrayList;
 
@@ -112,6 +112,7 @@ public class MultiplaylistListFragment extends Fragment implements OnStartDragLi
         Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.content_multiplaylist), "Playlist removed" , Snackbar.LENGTH_SHORT );
         snackbar.setAction("UNDO", new UndoListener(removedPlaylist,position));
         snackbar.show();
+        MultiplaylistStore.removeFromMulti(mPlaylistID, removedPlaylist.id + "-" + removedPlaylist.owner.id, getContext());
     }
 
 
@@ -129,6 +130,9 @@ public class MultiplaylistListFragment extends Fragment implements OnStartDragLi
         @Override
         public void onClick(View v) {
             adapter.addPlaylist(removedPlaylist,position);
+            ArrayList<String> tracks = new ArrayList<>();
+            tracks.add( removedPlaylist.id + "-" + removedPlaylist.owner.id);
+            MultiplaylistStore.addToMulti(mPlaylistID, tracks , getContext());
         }
     }
 

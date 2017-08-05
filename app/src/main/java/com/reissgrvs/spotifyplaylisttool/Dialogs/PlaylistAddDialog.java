@@ -17,7 +17,7 @@ import com.reissgrvs.spotifyplaylisttool.Activities.PlaylistActivity;
 import com.reissgrvs.spotifyplaylisttool.R;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.SpotifyAPIManager;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore;
-import com.reissgrvs.spotifyplaylisttool.Util.MultiPlaylistStore;
+import com.reissgrvs.spotifyplaylisttool.Util.MultiplaylistStore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -69,7 +69,8 @@ public class PlaylistAddDialog extends Dialog implements View.OnClickListener {
             @Override
             public void success(Playlist item, Response response) {
 
-                if (multi) {MultiPlaylistStore.addMulti(item.id);}
+                if (multi) {
+                    MultiplaylistStore.addMulti(item.id);}
 
                 Intent startMultiplaylistActivity = new Intent(getContext(), intentActivity);
                 startMultiplaylistActivity.putExtra(Intent.EXTRA_SUBJECT, item.id)
