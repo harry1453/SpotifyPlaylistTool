@@ -80,6 +80,7 @@ public class MultiplaylistListFragment extends Fragment implements OnStartDragLi
 
     private void addPlaylistFromId(String id, final Boolean last){
         String[] ids = id.split("-");
+        //TODO: Maybe just get relevant info/ title user and possibly image if I want
         SpotifyAPIManager.getService().getPlaylist(ids[1], ids[0], new SpotifyCallback<Playlist>() {
             @Override
             public void failure(SpotifyError spotifyError) {
@@ -90,7 +91,7 @@ public class MultiplaylistListFragment extends Fragment implements OnStartDragLi
 
                 adapter.addPlaylist(playlist);
                 if (last){
-                    MultiplaylistUtils.executeSyncPlaylistTask(mUserID, mPlaylistID, adapter.getPlaylists());
+                    MultiplaylistUtils.executeSyncPlaylistTask(mUserID, mPlaylistID);
                     recyclerView.setVisibility(View.VISIBLE);
                     ((MultiplaylistActivity)getActivity()).turnLoadingOff();
                 }

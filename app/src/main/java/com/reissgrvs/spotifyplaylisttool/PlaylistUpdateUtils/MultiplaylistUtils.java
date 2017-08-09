@@ -10,9 +10,12 @@ import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore;
 import com.reissgrvs.spotifyplaylisttool.Util.MultiplaylistStore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
 
@@ -33,42 +36,63 @@ public class MultiplaylistUtils {
     private static void syncPlaylist(final String userID, final String playlistID){
         List<String> childIDs = MultiplaylistStore.getMulti(playlistID);
 
-        List<Playlist> childPlaylists = getPlaylistsFromId(childIDs);
+        ArrayList<PlaylistTrack> childTracks = getPlaylistsFromId(childIDs);
 
-        ArrayList<PlaylistTrack> childTracks = unpackPlaylists(childPlaylists);
-
-        updateSpotify(userID,playlistID, childTracks);
-    }
-
-
-    private static void syncPlaylist(final String userID, final String playlistID, List<Playlist> childPlaylists){
-
-        ArrayList<PlaylistTrack> childTracks = unpackPlaylists(childPlaylists);
+        //ArrayList<PlaylistTrack> childTracks = unpackPlaylists(childPlaylists);
 
         updateSpotify(userID,playlistID, childTracks);
     }
+
+
 
     private static void updateSpotify(final String userID, final String playlistID, final ArrayList<PlaylistTrack> newTrackArray){
         if(!userID.equals("NO ID") && !playlistID.equals("NO ID")) {
-            ArrayList<PlaylistTrack> oldTrackArray = new ArrayList<>(SpotifyAPIManager.getService().getPlaylist(userID, playlistID).tracks.items);
+
+            ArrayList<PlaylistTrack> oldTrackArray = getPlaylistTracks(userID, playlistID);
             PlaylistUpdateUtils.updateSpotifyPlaylist(userID, playlistID, oldTrackArray, newTrackArray);
         }
     }
 
-    private static List<Playlist> getPlaylistsFromId(List<String> childPlaylistIDs){
-        List<Playlist> childPlaylists = new ArrayList<>();
+    private static ArrayList<PlaylistTrack> getPlaylistTracks(String userID, String playlistID){
+        int i = 0;
+        int pageSize = 100;
+        boolean endOfPlaylist = false;
+
+        ArrayList<PlaylistTrack> trackArray = new ArrayList<>();
+        while (!endOfPlaylist){
+            Map<String, Object> query = new HashMap<>();
+            query.put("offset", i);
+            ArrayList<PlaylistTrack> fetchedTrackArray = new ArrayList<>(SpotifyAPIManager.getService().getPlaylistTracks(userID, playlistID, query).items);
+            int fetchedSize = fetchedTrackArray.size();
+            if (!fetchedTrackArray.isEmpty() && fetchedSize == pageSize) {
+
+                trackArray.addAll(fetchedTrackArray);
+                i += pageSize;
+            }
+            else {
+                if (fetchedSize > 0){
+                    trackArray.addAll(fetchedTrackArray);
+                }
+                endOfPlaylist = true;
+            }
+        }
+
+        return trackArray;
+    }
+    private static ArrayList<PlaylistTrack> getPlaylistsFromId(List<String> childPlaylistIDs){
+        ArrayList<PlaylistTrack> childPlaylists = new ArrayList<>();
         for (String childID : childPlaylistIDs) {
-            childPlaylists.add(getPlaylistFromId(childID));
+            childPlaylists.addAll(getPlaylistFromId(childID));
         }
         return childPlaylists;
     }
 
-    private static Playlist getPlaylistFromId(String id) {
+    private static ArrayList<PlaylistTrack> getPlaylistFromId(String id) {
         String[] ids = id.split("-");
-        return SpotifyAPIManager.getService().getPlaylist(ids[1], ids[0]);
+        return getPlaylistTracks(ids[1], ids[0]);
     }
 
-    private static void executeSyncPlaylistTask(final String userID, final String playlistID){
+    public static void executeSyncPlaylistTask(final String userID, final String playlistID){
         new AsyncTask<Void, Void, Void>() {
             protected Void doInBackground(Void... unused) {
                 MultiplaylistUtils.syncPlaylist(userID, playlistID);
@@ -77,14 +101,6 @@ public class MultiplaylistUtils {
         }.execute();
     }
 
-    public static void executeSyncPlaylistTask(final String userID, final String playlistID, final List<Playlist> childPlaylists){
-        new AsyncTask<Void, Void, Void>() {
-            protected Void doInBackground(Void... unused) {
-                MultiplaylistUtils.syncPlaylist(userID, playlistID, childPlaylists);
-                return null;
-            }
-        }.execute();
-    }
 
     public static void updateAllMultiplaylists(final Context context, final String userID){
         new AsyncTask<Void, Void, Void>() {

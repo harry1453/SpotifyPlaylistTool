@@ -88,7 +88,7 @@ public class SongSearchPresenter implements SongSearch.ActionListener {
 
     @Override
     public void destroy() {
-        mContext.unbindService(mServiceConnection);
+        mPlayer.release();
     }
 
     @Override
@@ -99,17 +99,17 @@ public class SongSearchPresenter implements SongSearch.ActionListener {
 
     @Override
     public void resume() {
-        mContext.stopService(PlayerService.getIntent(mContext));
-    }
-
-    @Override
-    public void pause() {
         mContext.startService(PlayerService.getIntent(mContext));
     }
 
     @Override
+    public void pause() {
+        mContext.stopService(PlayerService.getIntent(mContext));
+        mPlayer.pause();
+    }
+
+    @Override
     public void loadMoreResults() {
-        Log.d(TAG, "Load more...");
         mSongSearchPager.getNextPage(mSearchListener);
     }
 
@@ -119,6 +119,9 @@ public class SongSearchPresenter implements SongSearch.ActionListener {
 
         if (previewUrl == null) {
             logMessage("Track doesn't have a preview");
+            if (mPlayer.isPlaying()) {
+                mPlayer.pause();
+            }
             return;
         }
 

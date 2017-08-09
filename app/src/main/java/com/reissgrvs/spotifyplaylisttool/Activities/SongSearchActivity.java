@@ -185,7 +185,7 @@ public class SongSearchActivity extends AppCompatActivity implements SongSearch.
     @Override
     protected void onPause() {
         super.onPause();
-        mActionListener.pause();
+        mActionListener.destroy();
     }
 
     @Override
