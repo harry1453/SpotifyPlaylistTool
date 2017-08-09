@@ -1,6 +1,5 @@
 package com.reissgrvs.spotifyplaylisttool.SongSearch;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.ServiceConnection;
@@ -29,19 +28,6 @@ public class SongSearchPresenter implements SongSearch.ActionListener {
     private SongSearchPager mSongSearchPager;
     private SongSearchPager.CompleteListener mSearchListener;
 
-    private Player mPlayer;
-
-    private ServiceConnection mServiceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            mPlayer = ((PlayerService.PlayerBinder) service).getService();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            mPlayer = null;
-        }
-    };
 
     public SongSearchPresenter(Context context, SongSearch.View view) {
         mContext = context;
@@ -60,7 +46,7 @@ public class SongSearchPresenter implements SongSearch.ActionListener {
 
         mSongSearchPager = new SongSearchPager(spotifyApi.getService());
 
-        mContext.bindService(PlayerService.getIntent(mContext), mServiceConnection, Activity.BIND_AUTO_CREATE);
+//        mContext.bindService(PlayerService.getIntent(mContext), mServiceConnection, Activity.BIND_AUTO_CREATE);
     }
 
 
@@ -88,7 +74,6 @@ public class SongSearchPresenter implements SongSearch.ActionListener {
 
     @Override
     public void destroy() {
-        mContext.unbindService(mServiceConnection);
     }
 
     @Override
@@ -99,17 +84,15 @@ public class SongSearchPresenter implements SongSearch.ActionListener {
 
     @Override
     public void resume() {
-        mContext.stopService(PlayerService.getIntent(mContext));
+
     }
 
     @Override
     public void pause() {
-        mContext.startService(PlayerService.getIntent(mContext));
     }
 
     @Override
     public void loadMoreResults() {
-        Log.d(TAG, "Load more...");
         mSongSearchPager.getNextPage(mSearchListener);
     }
 
@@ -117,8 +100,11 @@ public class SongSearchPresenter implements SongSearch.ActionListener {
     public void selectTrack(Track item) {
         String previewUrl = item.preview_url;
 
-        if (previewUrl == null) {
+        /*if (previewUrl == null) {
             logMessage("Track doesn't have a preview");
+            if (mPlayer.isPlaying()) {
+                mPlayer.pause();
+            }
             return;
         }
 
@@ -132,7 +118,7 @@ public class SongSearchPresenter implements SongSearch.ActionListener {
             mPlayer.pause();
         } else {
             mPlayer.resume();
-        }
+        }*/
     }
 
     private void logError(String msg) {
