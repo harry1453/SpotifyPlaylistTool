@@ -61,21 +61,20 @@ public class PlaylistUpdateUtils {
     public static void addTracks(String userID, String playlistID, Collection<CustomTrack> newTracks){
         if (!newTracks.isEmpty()) {
 
-            CustomTrack[] tracks = newTracks.toArray(new CustomTrack[newTracks.size()]);
+            ArrayList<CustomTrack> tracks = new ArrayList<>(newTracks);
             int pageLength = 50;
 
-            for(int i = 0; i < (tracks.length / pageLength); i++){
-                addTrackChunk(userID,playlistID, Arrays.copyOfRange(tracks, pageLength*i, pageLength*(i+1)));
+            for(int i = 0; i < (tracks.size() / pageLength); i++){
+                addTrackChunk(userID,playlistID, tracks.subList(pageLength*i, pageLength*(i+1)));
             }
 
-            if(tracks.length % pageLength > 0){
-                addTrackChunk(userID, playlistID ,Arrays.copyOfRange(tracks, tracks.length - tracks.length % pageLength , tracks.length));
-
+            if(tracks.size() % pageLength > 0){
+                addTrackChunk(userID, playlistID ,tracks.subList(tracks.size() - tracks.size() % pageLength , tracks.size()));
             }
         }
     }
 
-    private static void addTrackChunk(String userID, String playlistID, CustomTrack[] tracksChunk){
+    private static void addTrackChunk(String userID, String playlistID, Collection<CustomTrack> tracksChunk){
         List<String> trackList = new ArrayList<>();
         for (CustomTrack track : tracksChunk){
             if(track.mTrack.uri.startsWith("spotify:track:")){
@@ -93,10 +92,20 @@ public class PlaylistUpdateUtils {
         }
     }
     private static void removeTracks(String userID, String playlistID, Collection<CustomTrack> oldTracks){
-        //TODO: Make this work properly
         if(!oldTracks.isEmpty()) {
-            TracksToRemove tracksToRemove = packageTracksToRemove(oldTracks);
-            SpotifyAPIManager.getService().removeTracksFromPlaylist(userID, playlistID, tracksToRemove);
+            ArrayList<CustomTrack> tracks = new ArrayList<>(oldTracks);
+            int pageLength = 50;
+
+            for(int i = 0; i < (tracks.size() / pageLength); i++){
+                TracksToRemove tracksToRemove = packageTracksToRemove(tracks.subList(i*pageLength, (i+1)*pageLength));
+                SpotifyAPIManager.getService().removeTracksFromPlaylist(userID, playlistID, tracksToRemove);
+            }
+
+            if(tracks.size() % pageLength > 0){
+                TracksToRemove tracksToRemove = packageTracksToRemove(tracks.subList(tracks.size() - tracks.size() % pageLength , tracks.size()));
+                SpotifyAPIManager.getService().removeTracksFromPlaylist(userID, playlistID, tracksToRemove);
+            }
+
         }
     }
 
