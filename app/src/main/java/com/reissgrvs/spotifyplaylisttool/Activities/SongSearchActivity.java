@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,7 +59,8 @@ public class SongSearchActivity extends AppCompatActivity implements SongSearch.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_search);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.song_search_toolbar);
+        setSupportActionBar(toolbar);
         mReservedTracks = getIntent().getParcelableArrayListExtra("playlistTracks");
 
         String token = TokenStore.getAuthToken(getBaseContext());

@@ -6,11 +6,20 @@
     android:orientation="vertical"
     tools:context=".Activities.PlaylistSearchActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/playlist_search_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
+
     <SearchView
         android:id="@+id/playlist_search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:iconifiedByDefault="false"
+        android:paddingBottom="8dp"
         android:queryHint="Search Playlists" />
 
     <android.support.v7.widget.RecyclerView

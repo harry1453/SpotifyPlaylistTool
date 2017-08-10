@@ -6,12 +6,21 @@ android:layout_height="match_parent"
 android:orientation="vertical"
 tools:context=".Activities.SongSearchActivity">
 
-<SearchView
-    android:id="@+id/song_search_view"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:iconifiedByDefault="false"
-    android:queryHint="@string/search_hint" />
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/song_search_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
+
+    <SearchView
+        android:id="@+id/song_search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:iconifiedByDefault="false"
+        android:paddingBottom="8dp"
+        android:queryHint="@string/search_hint" />
 
 <android.support.v7.widget.RecyclerView
     android:id="@+id/song_search_results"

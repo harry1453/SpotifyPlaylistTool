@@ -18,5 +18,6 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:onClick="onLoginButtonClicked"
-        android:text="Log In to Spotify" />
+        android:text="Log In to Spotify"
+        android:visibility="gone" />
 </RelativeLayout>

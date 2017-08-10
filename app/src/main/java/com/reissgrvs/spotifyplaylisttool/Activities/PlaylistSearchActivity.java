@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,7 +44,8 @@ public class PlaylistSearchActivity extends AppCompatActivity implements Playlis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_search);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.playlist_search_toolbar);
+        setSupportActionBar(toolbar);
         if(getIntent().hasExtra("playlists")) {
             Log.d("PlaylistSearchActivity", "Has extra");
             mReservedPlaylists = getIntent().getStringArrayListExtra("playlists");

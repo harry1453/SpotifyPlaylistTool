@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.reissgrvs.spotifyplaylisttool.R;
@@ -24,10 +25,12 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
         String refreshToken = TokenStore.getRefreshToken(this);
         if (refreshToken == null) {
             onLoginButtonClicked(getCurrentFocus());
-            setContentView(R.layout.activity_login);
+            Button loginButton = (Button) findViewById(R.id.button);
+            loginButton.setVisibility(View.VISIBLE);
         } else {
             startMainActivity();
         }
@@ -35,8 +38,8 @@ public class LoginActivity extends Activity {
 
     public void onLoginButtonClicked(View view) {
         final AuthenticationRequest request = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.CODE, REDIRECT_URI)
-                .setScopes(new String[]{"playlist-read","playlist-read-private","playlist-read-collaborative","playlist-modify-public", "playlist-modify-private","user-library-read","user-top-read"})
                 .setShowDialog(true)
+                .setScopes(new String[]{"playlist-read","playlist-read-private","playlist-read-collaborative","playlist-modify-public", "playlist-modify-private","user-library-read","user-top-read"})
                 .build();
         Log.d(TAG, "Login Button Clicked");
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
