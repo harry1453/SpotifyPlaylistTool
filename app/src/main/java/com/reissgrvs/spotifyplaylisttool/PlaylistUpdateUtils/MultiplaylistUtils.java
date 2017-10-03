@@ -54,7 +54,21 @@ public class MultiplaylistUtils {
 
     private static void updateSpotify(final String userID, final String playlistID, final ArrayList<PlaylistTrack> newTrackArray){
         if(!userID.equals("NO ID") && !playlistID.equals("NO ID")) {
-            ArrayList<PlaylistTrack> oldTrackArray = new ArrayList<>(SpotifyAPIManager.getService().getPlaylist(userID, playlistID).tracks.items);
+
+            ArrayList<PlaylistTrack> oldTrackArray = new ArrayList<>();
+            int page = 0;
+            Map<String, Object> queries = new HashMap<>();
+
+            while(page > -1){
+                queries.put("offset", page*100);
+                Pager<PlaylistTrack> fetchedTracks = SpotifyAPIManager.getService().getPlaylistTracks(userID, playlistID, queries);
+                oldTrackArray.addAll(fetchedTracks.items);
+                page++;
+                if (fetchedTracks.total <= page*100){
+                    page = -1;
+                }
+            }
+            //ArrayList<PlaylistTrack> oldTrackArray = new ArrayList<>(SpotifyAPIManager.getService().getPlaylist(userID, playlistID).tracks.items);
             PlaylistUpdateUtils.updateSpotifyPlaylist(userID, playlistID, oldTrackArray, newTrackArray);
         }
     }
