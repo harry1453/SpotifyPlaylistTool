@@ -10,9 +10,13 @@ import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.TokenStore;
 import com.reissgrvs.spotifyplaylisttool.Util.MultiplaylistStore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import kaaes.spotify.webapi.android.SpotifyCallback;
+import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
 
@@ -33,9 +37,9 @@ public class MultiplaylistUtils {
     private static void syncPlaylist(final String userID, final String playlistID){
         List<String> childIDs = MultiplaylistStore.getMulti(playlistID);
 
-        List<Playlist> childPlaylists = getPlaylistsFromId(childIDs);
+        ArrayList<PlaylistTrack> childTracks = getTracksFromId(childIDs);
 
-        ArrayList<PlaylistTrack> childTracks = unpackPlaylists(childPlaylists);
+        //ArrayList<PlaylistTrack> childTracks = unpackPlaylists(childPlaylists);
 
         updateSpotify(userID,playlistID, childTracks);
     }
@@ -55,18 +59,33 @@ public class MultiplaylistUtils {
         }
     }
 
-    private static List<Playlist> getPlaylistsFromId(List<String> childPlaylistIDs){
-        List<Playlist> childPlaylists = new ArrayList<>();
+    private static ArrayList<PlaylistTrack> getTracksFromId(List<String> childPlaylistIDs){
+        ArrayList<PlaylistTrack> childPlaylists = new ArrayList<>();
         for (String childID : childPlaylistIDs) {
-            childPlaylists.add(getPlaylistFromId(childID));
+            childPlaylists.addAll(getPlaylistTracksFromId(childID));
         }
         return childPlaylists;
     }
 
-    private static Playlist getPlaylistFromId(String id) {
+    private static List<PlaylistTrack> getPlaylistTracksFromId(String id) {
+
         String[] ids = id.split("-");
 
-        return SpotifyAPIManager.getService().getPlaylist(ids[1], ids[0]);
+        ArrayList<PlaylistTrack> childTracks = new ArrayList<>();
+        int page = 0;
+        Map<String, Object> queries = new HashMap<>();
+
+        while(page > -1){
+            queries.put("offset", page*100);
+            Pager<PlaylistTrack> fetchedTracks = SpotifyAPIManager.getService().getPlaylistTracks(ids[1], ids[0], queries);
+            childTracks.addAll(fetchedTracks.items);
+            page++;
+            if (fetchedTracks.total <= page*100){
+                page = -1;
+            }
+        }
+
+        return childTracks;
     }
 
     private static void executeSyncPlaylistTask(final String userID, final String playlistID){
