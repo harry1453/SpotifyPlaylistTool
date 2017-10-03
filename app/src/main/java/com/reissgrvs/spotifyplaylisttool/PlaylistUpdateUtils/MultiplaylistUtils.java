@@ -65,6 +65,7 @@ public class MultiplaylistUtils {
 
     private static Playlist getPlaylistFromId(String id) {
         String[] ids = id.split("-");
+
         return SpotifyAPIManager.getService().getPlaylist(ids[1], ids[0]);
     }
 

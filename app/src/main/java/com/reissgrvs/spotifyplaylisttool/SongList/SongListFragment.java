@@ -23,11 +23,14 @@ import com.reissgrvs.spotifyplaylisttool.R;
 import com.reissgrvs.spotifyplaylisttool.SpotifyAPI.SpotifyAPIManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import kaaes.spotify.webapi.android.SpotifyCallback;
 import kaaes.spotify.webapi.android.SpotifyError;
 import kaaes.spotify.webapi.android.models.Pager;
+import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.Track;
 import retrofit.client.Response;
@@ -68,16 +71,26 @@ public class SongListFragment extends Fragment implements OnStartDragListener {
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
 
-        SpotifyAPIManager.getService().getPlaylistTracks(mUserID, mPlaylistID, new SpotifyCallback<Pager<PlaylistTrack>>() {
+        fetchTracks(0);
+
+    }
+
+    private void fetchTracks(final int page){
+
+        Map<String, Object> queries = new HashMap<>();
+        queries.put("offset", page*100);
+        SpotifyAPIManager.getService().getPlaylistTracks(mUserID, mPlaylistID, queries, new SpotifyCallback<Pager<PlaylistTrack>>() {
             @Override
             public void success(Pager<PlaylistTrack> playlistTrackPager, Response response) {
                 adapter.addTracks(playlistTrackPager.items);
+                if(playlistTrackPager.total > (page*100)){
+                    fetchTracks(page+1);
+                }
             }
             @Override
             public void failure(SpotifyError spotifyError) {}
         });
     }
-
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
         mItemTouchHelper.startDrag(viewHolder);
