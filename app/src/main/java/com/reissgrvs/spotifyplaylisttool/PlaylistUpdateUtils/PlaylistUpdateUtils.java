@@ -166,9 +166,9 @@ public class PlaylistUpdateUtils {
                 Map<String, Object> body = new HashMap<>();
                 body.put("range_start", start);
                 body.put("insert_before", end);
-
-                SpotifyAPIManager.getService().reorderPlaylistTracks(userID, playlistID, body);
-
+                if(end > -1) {
+                    SpotifyAPIManager.getService().reorderPlaylistTracks(userID, playlistID, body);
+                }
                 return null;
             }
         }.execute();
